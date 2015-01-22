@@ -1,0 +1,422 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B2D1C4351A70FDE200988F40 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D1C4341A70FDE200988F40 /* AppDelegate.swift */; };
+		B2D1C4371A70FDE200988F40 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D1C4361A70FDE200988F40 /* ViewController.swift */; };
+		B2D1C43A1A70FDE200988F40 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2D1C4381A70FDE200988F40 /* Main.storyboard */; };
+		B2D1C43C1A70FDE200988F40 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2D1C43B1A70FDE200988F40 /* Images.xcassets */; };
+		B2D1C43F1A70FDE200988F40 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D1C43D1A70FDE200988F40 /* LaunchScreen.xib */; };
+		B2D1C44B1A70FDE200988F40 /* MaterialCardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D1C44A1A70FDE200988F40 /* MaterialCardViewTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B2D1C4451A70FDE200988F40 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B2D1C4271A70FDE200988F40 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B2D1C42E1A70FDE200988F40;
+			remoteInfo = MaterialCardView;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B2D1C42F1A70FDE200988F40 /* MaterialCardView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MaterialCardView.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2D1C4331A70FDE200988F40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B2D1C4341A70FDE200988F40 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B2D1C4361A70FDE200988F40 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B2D1C4391A70FDE200988F40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B2D1C43B1A70FDE200988F40 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		B2D1C43E1A70FDE200988F40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		B2D1C4441A70FDE200988F40 /* MaterialCardViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaterialCardViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2D1C4491A70FDE200988F40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B2D1C44A1A70FDE200988F40 /* MaterialCardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialCardViewTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B2D1C42C1A70FDE200988F40 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2D1C4411A70FDE200988F40 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B2D1C4261A70FDE200988F40 = {
+			isa = PBXGroup;
+			children = (
+				B2D1C4311A70FDE200988F40 /* MaterialCardView */,
+				B2D1C4471A70FDE200988F40 /* MaterialCardViewTests */,
+				B2D1C4301A70FDE200988F40 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B2D1C4301A70FDE200988F40 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B2D1C42F1A70FDE200988F40 /* MaterialCardView.app */,
+				B2D1C4441A70FDE200988F40 /* MaterialCardViewTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B2D1C4311A70FDE200988F40 /* MaterialCardView */ = {
+			isa = PBXGroup;
+			children = (
+				B2D1C4341A70FDE200988F40 /* AppDelegate.swift */,
+				B2D1C4361A70FDE200988F40 /* ViewController.swift */,
+				B2D1C4381A70FDE200988F40 /* Main.storyboard */,
+				B2D1C43B1A70FDE200988F40 /* Images.xcassets */,
+				B2D1C43D1A70FDE200988F40 /* LaunchScreen.xib */,
+				B2D1C4321A70FDE200988F40 /* Supporting Files */,
+			);
+			path = MaterialCardView;
+			sourceTree = "<group>";
+		};
+		B2D1C4321A70FDE200988F40 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B2D1C4331A70FDE200988F40 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B2D1C4471A70FDE200988F40 /* MaterialCardViewTests */ = {
+			isa = PBXGroup;
+			children = (
+				B2D1C44A1A70FDE200988F40 /* MaterialCardViewTests.swift */,
+				B2D1C4481A70FDE200988F40 /* Supporting Files */,
+			);
+			path = MaterialCardViewTests;
+			sourceTree = "<group>";
+		};
+		B2D1C4481A70FDE200988F40 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B2D1C4491A70FDE200988F40 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B2D1C42E1A70FDE200988F40 /* MaterialCardView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B2D1C44E1A70FDE200988F40 /* Build configuration list for PBXNativeTarget "MaterialCardView" */;
+			buildPhases = (
+				B2D1C42B1A70FDE200988F40 /* Sources */,
+				B2D1C42C1A70FDE200988F40 /* Frameworks */,
+				B2D1C42D1A70FDE200988F40 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MaterialCardView;
+			productName = MaterialCardView;
+			productReference = B2D1C42F1A70FDE200988F40 /* MaterialCardView.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B2D1C4431A70FDE200988F40 /* MaterialCardViewTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B2D1C4511A70FDE200988F40 /* Build configuration list for PBXNativeTarget "MaterialCardViewTests" */;
+			buildPhases = (
+				B2D1C4401A70FDE200988F40 /* Sources */,
+				B2D1C4411A70FDE200988F40 /* Frameworks */,
+				B2D1C4421A70FDE200988F40 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B2D1C4461A70FDE200988F40 /* PBXTargetDependency */,
+			);
+			name = MaterialCardViewTests;
+			productName = MaterialCardViewTests;
+			productReference = B2D1C4441A70FDE200988F40 /* MaterialCardViewTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B2D1C4271A70FDE200988F40 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Cem Olcay";
+				TargetAttributes = {
+					B2D1C42E1A70FDE200988F40 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					B2D1C4431A70FDE200988F40 = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = B2D1C42E1A70FDE200988F40;
+					};
+				};
+			};
+			buildConfigurationList = B2D1C42A1A70FDE200988F40 /* Build configuration list for PBXProject "MaterialCardView" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B2D1C4261A70FDE200988F40;
+			productRefGroup = B2D1C4301A70FDE200988F40 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B2D1C42E1A70FDE200988F40 /* MaterialCardView */,
+				B2D1C4431A70FDE200988F40 /* MaterialCardViewTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B2D1C42D1A70FDE200988F40 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2D1C43A1A70FDE200988F40 /* Main.storyboard in Resources */,
+				B2D1C43F1A70FDE200988F40 /* LaunchScreen.xib in Resources */,
+				B2D1C43C1A70FDE200988F40 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2D1C4421A70FDE200988F40 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B2D1C42B1A70FDE200988F40 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2D1C4371A70FDE200988F40 /* ViewController.swift in Sources */,
+				B2D1C4351A70FDE200988F40 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2D1C4401A70FDE200988F40 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2D1C44B1A70FDE200988F40 /* MaterialCardViewTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B2D1C4461A70FDE200988F40 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B2D1C42E1A70FDE200988F40 /* MaterialCardView */;
+			targetProxy = B2D1C4451A70FDE200988F40 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B2D1C4381A70FDE200988F40 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B2D1C4391A70FDE200988F40 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		B2D1C43D1A70FDE200988F40 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B2D1C43E1A70FDE200988F40 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B2D1C44C1A70FDE200988F40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B2D1C44D1A70FDE200988F40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B2D1C44F1A70FDE200988F40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = MaterialCardView/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		B2D1C4501A70FDE200988F40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = MaterialCardView/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		B2D1C4521A70FDE200988F40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MaterialCardViewTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MaterialCardView.app/MaterialCardView";
+			};
+			name = Debug;
+		};
+		B2D1C4531A70FDE200988F40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MaterialCardViewTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MaterialCardView.app/MaterialCardView";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B2D1C42A1A70FDE200988F40 /* Build configuration list for PBXProject "MaterialCardView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2D1C44C1A70FDE200988F40 /* Debug */,
+				B2D1C44D1A70FDE200988F40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B2D1C44E1A70FDE200988F40 /* Build configuration list for PBXNativeTarget "MaterialCardView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2D1C44F1A70FDE200988F40 /* Debug */,
+				B2D1C4501A70FDE200988F40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		B2D1C4511A70FDE200988F40 /* Build configuration list for PBXNativeTarget "MaterialCardViewTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2D1C4521A70FDE200988F40 /* Debug */,
+				B2D1C4531A70FDE200988F40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B2D1C4271A70FDE200988F40 /* Project object */;
+}
