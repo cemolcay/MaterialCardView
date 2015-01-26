@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B2A6C68F1A714A6600D0AE8F /* CEMKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A6C68E1A714A6600D0AE8F /* CEMKit.swift */; };
 		B2D1C4351A70FDE200988F40 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D1C4341A70FDE200988F40 /* AppDelegate.swift */; };
 		B2D1C4371A70FDE200988F40 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D1C4361A70FDE200988F40 /* ViewController.swift */; };
 		B2D1C43A1A70FDE200988F40 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2D1C4381A70FDE200988F40 /* Main.storyboard */; };
 		B2D1C43C1A70FDE200988F40 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2D1C43B1A70FDE200988F40 /* Images.xcassets */; };
 		B2D1C43F1A70FDE200988F40 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2D1C43D1A70FDE200988F40 /* LaunchScreen.xib */; };
 		B2D1C44B1A70FDE200988F40 /* MaterialCardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D1C44A1A70FDE200988F40 /* MaterialCardViewTests.swift */; };
+		B2D1C4571A70FE6200988F40 /* MaterialCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D1C4561A70FE6200988F40 /* MaterialCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B2A6C68E1A714A6600D0AE8F /* CEMKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CEMKit.swift; sourceTree = "<group>"; };
 		B2D1C42F1A70FDE200988F40 /* MaterialCardView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MaterialCardView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2D1C4331A70FDE200988F40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2D1C4341A70FDE200988F40 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -36,6 +39,7 @@
 		B2D1C4441A70FDE200988F40 /* MaterialCardViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaterialCardViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2D1C4491A70FDE200988F40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2D1C44A1A70FDE200988F40 /* MaterialCardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialCardViewTests.swift; sourceTree = "<group>"; };
+		B2D1C4561A70FE6200988F40 /* MaterialCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,8 @@
 		B2D1C4311A70FDE200988F40 /* MaterialCardView */ = {
 			isa = PBXGroup;
 			children = (
+				B2A6C68E1A714A6600D0AE8F /* CEMKit.swift */,
+				B2D1C4561A70FE6200988F40 /* MaterialCardView.swift */,
 				B2D1C4341A70FDE200988F40 /* AppDelegate.swift */,
 				B2D1C4361A70FDE200988F40 /* ViewController.swift */,
 				B2D1C4381A70FDE200988F40 /* Main.storyboard */,
@@ -212,7 +218,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2A6C68F1A714A6600D0AE8F /* CEMKit.swift in Sources */,
 				B2D1C4371A70FDE200988F40 /* ViewController.swift in Sources */,
+				B2D1C4571A70FE6200988F40 /* MaterialCardView.swift in Sources */,
 				B2D1C4351A70FDE200988F40 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -407,6 +415,7 @@
 				B2D1C4501A70FDE200988F40 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B2D1C4511A70FDE200988F40 /* Build configuration list for PBXNativeTarget "MaterialCardViewTests" */ = {
 			isa = XCConfigurationList;
@@ -415,6 +424,7 @@
 				B2D1C4531A70FDE200988F40 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
