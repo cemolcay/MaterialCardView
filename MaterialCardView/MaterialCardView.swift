@@ -350,23 +350,67 @@ class MaterialCardView: UIView {
     
     // MARK: Add Cell
     
-    func addHeaderCell (cell: MaterialCardCell) {
+    func addHeader (title: String) {
+        let cell = MaterialCardCell (card: self)
         cell.backgroundColor = appeareance.headerBackgroundColor
+        
+        cell.addTitle(title)
         cell.h = max (cell.h, estimatedHeaderHeight)
+        
         items.insert(cell, atIndex: 0)
         add(cell)
     }
     
-    func addFooterCell (cell: MaterialCardCell) {
+    func addHeader (view: UIView) {
+        let cell = MaterialCardCell (card: self)
         cell.backgroundColor = appeareance.headerBackgroundColor
+
+        cell.addView(view)
         cell.h = max (cell.h, estimatedHeaderHeight)
+        
+        items.insert(cell, atIndex: 0)
+        add(cell)
+    }
+    
+    
+    func addFooter (title: String) {
+        let cell = MaterialCardCell (card: self)
+        cell.backgroundColor = appeareance.headerBackgroundColor
+        
+        cell.addTitle(title)
+        cell.h = max (cell.h, estimatedHeaderHeight)
+        
         items.insert(cell, atIndex: items.count)
+        add(cell)
+    }
+    
+    func addFooter (view: UIView) {
+        let cell = MaterialCardCell (card: self)
+        cell.backgroundColor = appeareance.headerBackgroundColor
+        
+        cell.addView(view)
+        cell.h = max (cell.h, estimatedHeaderHeight)
+        
+        items.insert(cell, atIndex: items.count)
+        add(cell)
+    }
+    
+    
+    func addCell (view: UIView) {
+        let cell = MaterialCardCell (card: self)
+        cell.backgroundColor = appeareance.cellBackgroundColor
+        
+        cell.addView(view)
+        cell.h = max (cell.h, estimatedRowHeight)
+        
+        items.append(cell)
         add(cell)
     }
     
     func addCell (cell: MaterialCardCell) {
         cell.backgroundColor = appeareance.cellBackgroundColor
         cell.h = max (cell.h, estimatedRowHeight)
+        
         items.append(cell)
         add(cell)
     }
