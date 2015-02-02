@@ -17,21 +17,49 @@ class ViewController: UIViewController {
         let c = MaterialCardView (x: 10, y: StatusBarHeight + 10, w: ScreenWidth-20)
         view.addSubview(c)
         
-        let firstItem = MaterialCardCell (card: c)
-        firstItem.addText("First item")
-        c.addCell(firstItem)
+        c.addHeader("Header")
+        c.addCell("Item 1")
+        c.addCell("Item 2")
+        c.addCell("Item 3")
         
-        let secondItem = MaterialCardCell (card: c)
-        secondItem.addText("Second Item")
-        c.addCell(secondItem)
+        let container = UIView (x: 0, y: 0, w: c.w, h: 0)
         
+        let label = UILabel (
+            x: 10,
+            y: 0,
+            width: c.w - 10,
+            padding: 10,
+            attributedText: NSAttributedString.withAttributedStrings({ (att: NSMutableAttributedString) -> () in
+                att.appendAttributedString(NSAttributedString (
+                    text: "Cem ",
+                    color: UIColor.brownColor(),
+                    font: UIFont.AvenirNextRegular(15),
+                    style: .plain))
+                att.appendAttributedString(NSAttributedString (
+                    text: "\nTest",
+                    color: UIColor.blueColor(),
+                    font: UIFont.AvenirNextDemiBold(15),
+                    style: .plain))
+                att.appendAttributedString(NSAttributedString (
+                    text: "\npowered by CEMKit",
+                    color: UIColor.redColor(),
+                    font: UIFont.AvenirNextRegular(13),
+                    style: .underline(NSUnderlineStyle.StyleSingle, UIColor.blackColor())))
+            }),
+            textAlignment: .Center)
         
-        let header = MaterialCardCell (card: c)
-        header.addTitle("Header Title")
-        c.addHeaderCell(header)
+        container.addSubview(label)
+        container.h = label.h
         
-        c.removeCell(firstItem)
+        let v = UIView (x: 20, y: 20, w: 20, h: 20)
+        v.backgroundColor = UIColor.randomColor()
+        container.addSubview(v)
+        
+        container.addTapGesture(1) { sender in
+            v.backgroundColor = UIColor.randomColor()
+        }
+        
+        c.addFooter(container)
     }
-
 }
 

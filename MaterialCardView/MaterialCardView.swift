@@ -396,11 +396,11 @@ class MaterialCardView: UIView {
     }
     
     
-    func addCell (title: String) {
+    func addCell (text: String) {
         let cell = MaterialCardCell (card: self)
         cell.backgroundColor = appeareance.cellBackgroundColor
         
-        cell.addTitle(title)
+        cell.addText(text)
         cell.h = max (cell.h, estimatedRowHeight)
         
         items.append(cell)
