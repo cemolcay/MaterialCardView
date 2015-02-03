@@ -8,9 +8,7 @@
 
 import UIKit
 
-
 extension UIView {
-    
     
     // MARK: CALayer
     
@@ -114,6 +112,60 @@ extension UIView {
         }
     }
     
+}
+
+extension UIView {
+    
+    enum MaterialCardRippleLocation {
+        case Center
+        case TouchLocation
+    }
+    
+    func addRipple (
+        color: UIColor,
+        duration: NSTimeInterval,
+        location: MaterialCardRippleLocation) {
+            
+        let size = min(w, h) / 2
+        let rippleLayer = CALayer ()
+        rippleLayer.frame = CGRect (x: 0, y: 0, width: size, height: size)
+        rippleLayer.backgroundColor = color.CGColor
+        rippleLayer.opacity = 0
+        rippleLayer.cornerRadius = size/2
+        rippleLayer.name = "ripple"
+            
+        layer.masksToBounds = true
+        layer.addSublayer(rippleLayer)
+        
+        addTapGesture(1, action: { [unowned self] (tap) -> () in
+            var loc = tap.locationInView(self)
+            if location == .Center {
+                loc = self.center
+            }
+            
+            rippleLayer.position = loc
+            self.animateRipple(rippleLayer, duration: duration)
+        })
+    }
+    
+    private func animateRipple (ripple: CALayer, duration: NSTimeInterval) {
+        let scale = CABasicAnimation (keyPath: "transform.scale")
+        scale.fromValue = 1
+        scale.toValue = 10
+        
+        let opacity = CABasicAnimation (keyPath: "opacity")
+        opacity.fromValue = 0
+        opacity.toValue = 1
+        opacity.autoreverses = true
+        opacity.duration = duration/2
+        
+        let anim = CAAnimationGroup ()
+        anim.animations = [scale, opacity]
+        anim.duration = duration
+        anim.timingFunction = CAMediaTimingFunction (name: kCAMediaTimingFunctionEaseIn)
+        
+        ripple.addAnimation(anim, forKey: "rippleAnimation")
+    }
 }
 
 extension UIColor {

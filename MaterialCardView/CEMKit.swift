@@ -776,14 +776,14 @@ extension UILabel {
         textColor: UIColor,
         textAlignment: NSTextAlignment,
         font: UIFont) {
-            self.init(frame: CGRect (x: x, y: y, width: width, height: 10.0))
-            self.text = text
-            self.textColor = textColor
-            self.textAlignment = textAlignment
-            self.font = font
-            
-            self.numberOfLines = 0
-            self.h = self.getEstimatedHeight() + 2*padding
+        self.init(frame: CGRect (x: x, y: y, width: width, height: 10.0))
+        self.text = text
+        self.textColor = textColor
+        self.textAlignment = textAlignment
+        self.font = font
+        
+        self.numberOfLines = 0
+        self.h = self.getEstimatedHeight() + 2*padding
     }
     
     convenience init (
@@ -1217,9 +1217,14 @@ func += <KeyType, ValueType> (inout left: Dictionary<KeyType, ValueType>,
 
 func delay (
     seconds: Double,
-    queue: dispatch_queue_t = dispatch_get_main_queue(),
     after: ()->()) {
-        
+    delay (seconds, dispatch_get_main_queue(), after)
+}
+
+func delay (
+    seconds: Double,
+    queue: dispatch_queue_t,
+    after: ()->()) {
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(seconds * Double(NSEC_PER_SEC)))
         dispatch_after(time, queue, after)
 }

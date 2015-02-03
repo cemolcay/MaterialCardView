@@ -31,7 +31,7 @@ class ViewController: UIViewController {
             padding: 10,
             attributedText: NSAttributedString.withAttributedStrings({ (att: NSMutableAttributedString) -> () in
                 att.appendAttributedString(NSAttributedString (
-                    text: "Cem ",
+                    text: "Att ",
                     color: UIColor.brownColor(),
                     font: UIFont.AvenirNextRegular(15),
                     style: .plain))
@@ -53,11 +53,14 @@ class ViewController: UIViewController {
         
         let v = UIView (x: 20, y: 20, w: 20, h: 20)
         v.backgroundColor = UIColor.randomColor()
+        v.materialize()
         container.addSubview(v)
         
         container.addTapGesture(1) { sender in
             v.backgroundColor = UIColor.randomColor()
         }
+        
+        container.addRipple(UIColor.RGBAColor(51, g: 51, b: 51, a: 0.2), duration: 0.5, location: .TouchLocation)
         
         c.addFooter(container)
     }

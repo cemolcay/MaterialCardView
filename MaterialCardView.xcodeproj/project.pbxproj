@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B2A6C68F1A714A6600D0AE8F /* CEMKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A6C68E1A714A6600D0AE8F /* CEMKit.swift */; };
+		B2588B891A7FD36200D69223 /* CEMKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2588B881A7FD36200D69223 /* CEMKit.swift */; };
 		B2D1C4351A70FDE200988F40 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D1C4341A70FDE200988F40 /* AppDelegate.swift */; };
 		B2D1C4371A70FDE200988F40 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D1C4361A70FDE200988F40 /* ViewController.swift */; };
 		B2D1C43A1A70FDE200988F40 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2D1C4381A70FDE200988F40 /* Main.storyboard */; };
@@ -28,7 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B2A6C68E1A714A6600D0AE8F /* CEMKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CEMKit.swift; sourceTree = "<group>"; };
+		B2588B881A7FD36200D69223 /* CEMKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CEMKit.swift; sourceTree = "<group>"; };
 		B2D1C42F1A70FDE200988F40 /* MaterialCardView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MaterialCardView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2D1C4331A70FDE200988F40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2D1C4341A70FDE200988F40 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -81,7 +81,7 @@
 		B2D1C4311A70FDE200988F40 /* MaterialCardView */ = {
 			isa = PBXGroup;
 			children = (
-				B2A6C68E1A714A6600D0AE8F /* CEMKit.swift */,
+				B2588B881A7FD36200D69223 /* CEMKit.swift */,
 				B2D1C4561A70FE6200988F40 /* MaterialCardView.swift */,
 				B2D1C4341A70FDE200988F40 /* AppDelegate.swift */,
 				B2D1C4361A70FDE200988F40 /* ViewController.swift */,
@@ -218,7 +218,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2A6C68F1A714A6600D0AE8F /* CEMKit.swift in Sources */,
+				B2588B891A7FD36200D69223 /* CEMKit.swift in Sources */,
 				B2D1C4371A70FDE200988F40 /* ViewController.swift in Sources */,
 				B2D1C4571A70FE6200988F40 /* MaterialCardView.swift in Sources */,
 				B2D1C4351A70FDE200988F40 /* AppDelegate.swift in Sources */,
@@ -347,6 +347,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MaterialCardView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -357,6 +358,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MaterialCardView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
