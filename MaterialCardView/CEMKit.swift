@@ -34,6 +34,10 @@ extension UIView {
         h: CGFloat) {
         self.init (frame: CGRect (x: x, y: y, width: w, height: h))
     }
+    
+    convenience init (superView: UIView) {
+        self.init (frame: CGRect (origin: CGPointZero, size: superView.size))
+    }
 }
 
 
@@ -212,11 +216,16 @@ extension UIView {
         offset: CGSize,
         radius: CGFloat,
         color: UIColor,
-        opacity: Float) {
+        opacity: Float,
+        cornerRadius: CGFloat? = nil) {
         self.layer.shadowOffset = offset
         self.layer.shadowRadius = radius
         self.layer.shadowOpacity = opacity
         self.layer.shadowColor = color.CGColor
+            
+        if let r = cornerRadius {
+            self.layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: r).CGPath
+        }
     }
     
     func addBorder (
@@ -729,7 +738,22 @@ extension UILabel {
         sizeToFit()
     }
     
-
+    
+    
+    convenience init (
+        frame: CGRect,
+        text: String,
+        textColor: UIColor,
+        textAlignment: NSTextAlignment,
+        font: UIFont) {
+            self.init(frame: frame)
+            self.text = text
+            self.textColor = textColor
+            self.textAlignment = textAlignment
+            self.font = font
+            
+            self.numberOfLines = 0
+    }
     
     convenience init (
         x: CGFloat,
@@ -776,14 +800,14 @@ extension UILabel {
         textColor: UIColor,
         textAlignment: NSTextAlignment,
         font: UIFont) {
-        self.init(frame: CGRect (x: x, y: y, width: width, height: 10.0))
-        self.text = text
-        self.textColor = textColor
-        self.textAlignment = textAlignment
-        self.font = font
-        
-        self.numberOfLines = 0
-        self.h = self.getEstimatedHeight() + 2*padding
+            self.init(frame: CGRect (x: x, y: y, width: width, height: 10.0))
+            self.text = text
+            self.textColor = textColor
+            self.textAlignment = textAlignment
+            self.font = font
+            
+            self.numberOfLines = 0
+            self.h = self.getEstimatedHeight() + 2*padding
     }
     
     convenience init (
@@ -803,7 +827,18 @@ extension UILabel {
         self.fitSize()
     }
     
+
     
+    convenience init (
+        frame: CGRect,
+        attributedText: NSAttributedString,
+        textAlignment: NSTextAlignment) {
+            self.init(frame: frame)
+            self.attributedText = attributedText
+            self.textAlignment = textAlignment
+            
+            self.numberOfLines = 0
+    }
     
     convenience init (
         x: CGFloat,
@@ -1128,8 +1163,12 @@ extension UIColor {
                 alpha: 1)
     }
 
-    class func GrayTone (gray: CGFloat) -> UIColor {
+    class func Gray (gray: CGFloat) -> UIColor {
         return self.RGBColor(gray, g: gray, b: gray)
+    }
+    
+    class func Gray (gray: CGFloat, alpha: CGFloat) -> UIColor {
+        return self.RGBAColor(gray, g: gray, b: gray, a: alpha)
     }
     
     class func HexColor (hex: String) -> UIColor {
@@ -1217,16 +1256,21 @@ func += <KeyType, ValueType> (inout left: Dictionary<KeyType, ValueType>,
 
 func delay (
     seconds: Double,
+    queue: dispatch_queue_t,
     after: ()->()) {
-    delay (seconds, dispatch_get_main_queue(), after)
+        
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(seconds * Double(NSEC_PER_SEC)))
+        dispatch_after(time, queue, after)
 }
+
 
 func delay (
     seconds: Double,
-    queue: dispatch_queue_t,
     after: ()->()) {
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(seconds * Double(NSEC_PER_SEC)))
-        dispatch_after(time, queue, after)
+    delay(
+        seconds,
+        dispatch_get_main_queue(),
+        after)
 }
 
 

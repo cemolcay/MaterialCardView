@@ -10,112 +10,6 @@ import UIKit
 
 extension UIView {
     
-    // MARK: CALayer
-    
-    func materialize () {
-        layer.cornerRadius = 1
-        layer.shadowOffset = CGSize (width: 0, height: 1)
-        layer.shadowRadius = 1
-        layer.shadowOpacity = 0.5
-        layer.shadowColor = UIColor.TitleColor().CGColor
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).CGPath
-        
-        layer.masksToBounds = false
-    }
-    
-    
-    
-    // MARK: CAAnimation
-    
-    func shadowDepthTo (to: CGFloat) {
-        let radiusAnim = CABasicAnimation (keyPath: "shadowRadius")
-        radiusAnim.fromValue = layer.shadowRadius
-        radiusAnim.toValue = to
-        
-        let offsetAnim = CABasicAnimation (keyPath: "shadowOffset.height")
-        offsetAnim.fromValue = layer.shadowOffset.height
-        offsetAnim.toValue = to
-        
-        let anim = CAAnimationGroup ()
-        anim.animations = [radiusAnim, offsetAnim]
-        anim.duration = UIViewAnimationDuration
-        anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        anim.removedOnCompletion = false
-        anim.delegate = self
-        
-        layer.addAnimation(anim, forKey: "materialShadow")
-    }
-    
-    func materialSizeTo (to: CGSize) {
-        let shadowFrame = CABasicAnimation (keyPath: "shadowPath")
-        shadowFrame.fromValue = layer.shadowPath
-        shadowFrame.toValue = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).CGPath
-
-        let layerFrame = CABasicAnimation (keyPath: "frame.size")
-        layerFrame.fromValue = NSValue (CGSize: size)
-        layerFrame.toValue = NSValue (CGSize: to)
-        
-        let anim = CAAnimationGroup ()
-        anim.animations = [shadowFrame, layerFrame]
-        anim.duration = UIViewAnimationDuration
-        anim.timingFunction = CAMediaTimingFunction (name: kCAMediaTimingFunctionEaseInEaseOut)
-        anim.removedOnCompletion = false
-        anim.delegate = self
-        
-        layer.addAnimation(anim, forKey: "sizeTo")
-    }
-    
-    public override func animationDidStop(anim: CAAnimation!, finished flag: Bool) {
-        if flag {
-            if let anim = layer.animationForKey("materialShadow") {
-                let group = anim as CAAnimationGroup
-                let radius = group.animations[0] as CABasicAnimation
-                let offset = group.animations[1] as CABasicAnimation
-                
-                layer.shadowRadius = radius.toValue! as CGFloat
-                layer.shadowOffset.height = offset.toValue! as CGFloat
-            }
-            
-            if let anim = layer.animationForKey("sizeTo") {
-                let group = anim as CAAnimationGroup
-                let shadowFrame = group.animations[0] as CABasicAnimation
-                let layerFrame = group.animations[1] as CABasicAnimation
-                
-                layer.shadowPath = shadowFrame.toValue! as CGPath
-                layer.frame.size = (layerFrame.toValue! as NSValue).CGSizeValue()
-            }
-        }
-    }
-    
-    
-    
-    // MARK: UIView Animation
-
-    func materialAnimate (animations: ()->Void) {
-        UIView.animateWithDuration(
-            UIViewAnimationDuration,
-            delay: 0,
-            options: .CurveEaseInOut,
-            animations: animations,
-            completion: nil)
-    }
-    
-    func materialMoveTo (to: CGPoint) {
-        materialAnimate {
-            self.position = to
-        }
-    }
-    
-    func materialFrameTo (to: CGRect) {
-        materialAnimate {
-            self.frame = to
-        }
-    }
-    
-}
-
-extension UIView {
-    
     enum MaterialCardRippleLocation {
         case Center
         case TouchLocation
@@ -124,7 +18,8 @@ extension UIView {
     func addRipple (
         color: UIColor,
         duration: NSTimeInterval,
-        location: MaterialCardRippleLocation) {
+        location: MaterialCardRippleLocation,
+        action: (()->Void)?) {
             
         let size = min(w, h) / 2
         let rippleLayer = CALayer ()
@@ -145,6 +40,7 @@ extension UIView {
             
             rippleLayer.position = loc
             self.animateRipple(rippleLayer, duration: duration)
+            action? ()
         })
     }
     
@@ -220,6 +116,9 @@ struct MaterialCardAppeareance {
     var textFont: UIFont
     var textColor: UIColor
     
+    var rippleColor: UIColor
+    var rippleDuration: NSTimeInterval
+    
     init (
         headerBackgroundColor: UIColor,
         cellBackgroundColor: UIColor,
@@ -227,7 +126,9 @@ struct MaterialCardAppeareance {
         titleFont: UIFont,
         titleColor: UIColor,
         textFont: UIFont,
-        textColor: UIColor) {
+        textColor: UIColor,
+        rippleColor: UIColor,
+        rippleDuration: NSTimeInterval) {
         self.headerBackgroundColor = headerBackgroundColor
         self.cellBackgroundColor = cellBackgroundColor
         self.borderColor = borderColor
@@ -237,6 +138,9 @@ struct MaterialCardAppeareance {
         
         self.textFont = textFont
         self.textColor = textColor
+            
+        self.rippleColor = rippleColor
+        self.rippleDuration = rippleDuration
     }
 }
 
@@ -328,6 +232,7 @@ class MaterialCardView: UIView {
     // MARK: Constants
     
     let cardPadding: CGFloat = 10
+    let cardRadius: CGFloat = 5
     
     let estimatedRowHeight: CGFloat = 53
     let estimatedHeaderHeight: CGFloat = 40
@@ -338,6 +243,7 @@ class MaterialCardView: UIView {
 
     var appeareance: MaterialCardAppeareance!
     var items: [MaterialCardCell] = []
+    var contentView: UIView!
     
     
     
@@ -361,6 +267,9 @@ class MaterialCardView: UIView {
     func defaultInit () {
         h = 0
         appeareance = defaultAppeareance()
+        
+        contentView = UIView (superView: self)
+        addSubview(contentView)
     }
     
     
@@ -375,7 +284,9 @@ class MaterialCardView: UIView {
             titleFont: UIFont.AvenirNextDemiBold(18),
             titleColor: UIColor.TitleColor(),
             textFont: UIFont.AvenirNextRegular(15),
-            textColor: UIColor.TextColor())
+            textColor: UIColor.TextColor(),
+            rippleColor: UIColor.Gray(51, alpha: 0.1),
+            rippleDuration: 0.4)
     }
     
     
@@ -395,7 +306,20 @@ class MaterialCardView: UIView {
             }
         }
         
+        contentView.size = size
         materialize()
+    }
+
+    func materialize () {
+        
+        addShadow(
+            CGSize (width: 0, height: 1),
+            radius: 1,
+            color: UIColor.TitleColor(),
+            opacity: 1,
+            cornerRadius: cardRadius)
+        
+        contentView.setCornerRadius(cardRadius)
     }
 
     
@@ -448,23 +372,39 @@ class MaterialCardView: UIView {
     }
     
     
-    func addCell (text: String) {
+    func addCell (text: String, action: (()->Void)? = nil) {
         let cell = MaterialCardCell (card: self)
         cell.backgroundColor = appeareance.cellBackgroundColor
         
         cell.addText(text)
         cell.h = max (cell.h, estimatedRowHeight)
         
+        if let act = action {
+            cell.addRipple(
+                appeareance.rippleColor,
+                duration: appeareance.rippleDuration,
+                location: .TouchLocation,
+                action: act)
+        }
+        
         items.append(cell)
         add(cell)
     }
     
-    func addCell (view: UIView) {
+    func addCell (view: UIView, action: (()->Void)? = nil) {
         let cell = MaterialCardCell (card: self)
         cell.backgroundColor = appeareance.cellBackgroundColor
         
         cell.addView(view)
         cell.h = max (cell.h, estimatedRowHeight)
+        
+        if let act = action {
+            cell.addRipple(
+                appeareance.rippleColor,
+                duration: appeareance.rippleDuration,
+                location: .TouchLocation,
+                action: act)
+        }
         
         items.append(cell)
         add(cell)
@@ -480,7 +420,7 @@ class MaterialCardView: UIView {
     
     
     private func add (cell: MaterialCardCell) {
-        addSubview(cell)
+        contentView.addSubview(cell)
         h += cell.h
         
         updateFrame()

@@ -11,9 +11,59 @@ import UIKit
 class ViewController: UIViewController {
 
     var v: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        materialDemo()
+    }
+    
+    func cornerise () {
+        
+        let c5 = shadowAndCorner(5)
+        view.addSubview(c5)
+        
+        let c3 = shadowAndCorner(3)
+        c3.top = c5.botttomWithOffset(10)
+        view.addSubview(c3)
+        
+        let c2 = shadowAndCorner(2)
+        c2.top = c3.botttomWithOffset(10)
+        view.addSubview(c2)
+        
+        let c1 = shadowAndCorner(1)
+        c1.top = c2.botttomWithOffset(10)
+        view.addSubview(c1)
 
+    }
+    
+    func shadowAndCorner (corner: CGFloat) -> UIView {
+        
+        let topView = UIView (x: 10, y: StatusBarHeight + 10, w: ScreenWidth-20, h: 100)
+        topView.addShadow(
+            CGSize (width: 0, height: 1),
+            radius: 1,
+            color: UIColor.TitleColor(),
+            opacity: 1,
+            cornerRadius: corner)
+        
+        let otherView = UIView (frame: topView.frame)
+        otherView.position = CGPointZero
+        otherView.backgroundColor = UIColor.CardHeaderColor()
+        otherView.setCornerRadius(corner)
+        topView.addSubview(otherView)
+        
+        let label = UILabel (
+            frame: otherView.frame,
+            text: "corner radius \(corner)",
+            textColor: UIColor.TitleColor(),
+            textAlignment: .Center,
+            font: UIFont.AvenirNext(.Regular, size: 20))
+        otherView.addSubview(label)
+        
+        return topView
+    }
+    
+    func materialDemo () {
         let c = MaterialCardView (x: 10, y: StatusBarHeight + 10, w: ScreenWidth-20)
         view.addSubview(c)
         
@@ -50,17 +100,13 @@ class ViewController: UIViewController {
         
         container.addSubview(label)
         container.h = label.h
-        
-        let v = UIView (x: 20, y: 20, w: 20, h: 20)
-        v.backgroundColor = UIColor.randomColor()
-        v.materialize()
-        container.addSubview(v)
-        
-        container.addTapGesture(1) { sender in
-            v.backgroundColor = UIColor.randomColor()
-        }
-        
-        container.addRipple(UIColor.RGBAColor(51, g: 51, b: 51, a: 0.2), duration: 0.5, location: .TouchLocation)
+        container.addRipple(
+            UIColor.Gray(51, alpha: 0.2),
+            duration: 0.5,
+            location: .TouchLocation,
+            action: {
+                println("act")
+        })
         
         c.addFooter(container)
     }
