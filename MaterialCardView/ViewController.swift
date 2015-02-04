@@ -9,69 +9,38 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    var v: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         materialDemo()
     }
-    
-    func cornerise () {
-        
-        let c5 = shadowAndCorner(5)
-        view.addSubview(c5)
-        
-        let c3 = shadowAndCorner(3)
-        c3.top = c5.botttomWithOffset(10)
-        view.addSubview(c3)
-        
-        let c2 = shadowAndCorner(2)
-        c2.top = c3.botttomWithOffset(10)
-        view.addSubview(c2)
-        
-        let c1 = shadowAndCorner(1)
-        c1.top = c2.botttomWithOffset(10)
-        view.addSubview(c1)
 
-    }
-    
-    func shadowAndCorner (corner: CGFloat) -> UIView {
-        
-        let topView = UIView (x: 10, y: StatusBarHeight + 10, w: ScreenWidth-20, h: 100)
-        topView.addShadow(
-            CGSize (width: 0, height: 1),
-            radius: 1,
-            color: UIColor.TitleColor(),
-            opacity: 1,
-            cornerRadius: corner)
-        
-        let otherView = UIView (frame: topView.frame)
-        otherView.position = CGPointZero
-        otherView.backgroundColor = UIColor.CardHeaderColor()
-        otherView.setCornerRadius(corner)
-        topView.addSubview(otherView)
-        
-        let label = UILabel (
-            frame: otherView.frame,
-            text: "corner radius \(corner)",
-            textColor: UIColor.TitleColor(),
-            textAlignment: .Center,
-            font: UIFont.AvenirNext(.Regular, size: 20))
-        otherView.addSubview(label)
-        
-        return topView
-    }
-    
     func materialDemo () {
+        
+        let scroll = UIScrollView (frame: view.frame)
+        view.addSubview(scroll)
+        
         let c = MaterialCardView (x: 10, y: StatusBarHeight + 10, w: ScreenWidth-20)
-        view.addSubview(c)
+        scroll.addSubview(c)
         
         c.addHeader("Header")
         c.addCell("Item 1")
         c.addCell("Item 2")
         c.addCell("Item 3")
+        addFooter(c)
         
+        let cc = MaterialCardView (x: 10, y: c.botttomWithOffset(10), w: c.w)
+        scroll.addSubview(cc)
+        
+        cc.addHeader("Header")
+        cc.addCell("Item 1")
+        cc.addCell("Item 2")
+        cc.addCell("Item 3")
+        
+        scroll.contentHeight = cc.botttomWithOffset(10)
+    }
+    
+    func addFooter (c: MaterialCardView) {
         let container = UIView (x: 0, y: 0, w: c.w, h: 0)
         
         let label = UILabel (
@@ -81,19 +50,19 @@ class ViewController: UIViewController {
             padding: 10,
             attributedText: NSAttributedString.withAttributedStrings({ (att: NSMutableAttributedString) -> () in
                 att.appendAttributedString(NSAttributedString (
-                    text: "Att ",
-                    color: UIColor.brownColor(),
-                    font: UIFont.AvenirNextRegular(15),
+                    text: "Footer Label",
+                    color: UIColor.TitleColor(),
+                    font: UIFont.TitleFont(),
                     style: .plain))
                 att.appendAttributedString(NSAttributedString (
-                    text: "\nTest",
-                    color: UIColor.blueColor(),
-                    font: UIFont.AvenirNextDemiBold(15),
+                    text: "\nAttributed String",
+                    color: UIColor.TextColor(),
+                    font: UIFont.TitleFont(),
                     style: .plain))
                 att.appendAttributedString(NSAttributedString (
                     text: "\npowered by CEMKit",
-                    color: UIColor.redColor(),
-                    font: UIFont.AvenirNextRegular(13),
+                    color: UIColor.TextColor(),
+                    font: UIFont.TextFont(),
                     style: .underline(NSUnderlineStyle.StyleSingle, UIColor.blackColor())))
             }),
             textAlignment: .Center)

@@ -21,17 +21,22 @@ extension UIView {
         location: MaterialCardRippleLocation,
         action: (()->Void)?) {
             
+        let overlay = CALayer ()
+        overlay.frame = layer.frame
+        overlay.backgroundColor = UIColor.Gray(0, alpha: 0.1).CGColor
+        overlay.opacity = 0
+        layer.addSublayer(overlay)
+            
         let size = min(w, h) / 2
         let rippleLayer = CALayer ()
         rippleLayer.frame = CGRect (x: 0, y: 0, width: size, height: size)
         rippleLayer.backgroundColor = color.CGColor
         rippleLayer.opacity = 0
         rippleLayer.cornerRadius = size/2
-        rippleLayer.name = "ripple"
             
         layer.masksToBounds = true
         layer.addSublayer(rippleLayer)
-        
+            
         addTapGesture(1, action: { [unowned self] (tap) -> () in
             var loc = tap.locationInView(self)
             if location == .Center {
@@ -39,12 +44,13 @@ extension UIView {
             }
             
             rippleLayer.position = loc
-            self.animateRipple(rippleLayer, duration: duration)
+            self.animateRipple(rippleLayer, overlay: overlay, duration: duration)
             action? ()
         })
     }
     
-    private func animateRipple (ripple: CALayer, duration: NSTimeInterval) {
+    private func animateRipple (ripple: CALayer, overlay: CALayer, duration: NSTimeInterval) {
+        
         let scale = CABasicAnimation (keyPath: "transform.scale")
         scale.fromValue = 1
         scale.toValue = 10
@@ -60,6 +66,12 @@ extension UIView {
         anim.duration = duration
         anim.timingFunction = CAMediaTimingFunction (name: kCAMediaTimingFunctionEaseIn)
         
+        let overlayAnim = CABasicAnimation (keyPath: "opacity")
+        overlayAnim.fromValue = 1
+        overlayAnim.toValue = 0
+        overlayAnim.duration = duration
+        
+        overlay.addAnimation(overlayAnim, forKey: "overlayAnimation")
         ripple.addAnimation(anim, forKey: "rippleAnimation")
     }
 }
@@ -90,16 +102,12 @@ extension UIColor {
 
 extension UIFont {
     
-    class func AvenirNext (type: FontType, size: CGFloat) -> UIFont {
-        return UIFont.Font(UIFont.FontName.AvenirNext, type: type, size: size)
+    class func TitleFont () -> UIFont {
+        return AvenirNextDemiBold(15)
     }
     
-    class func AvenirNextDemiBold (size: CGFloat) -> UIFont {
-        return AvenirNext(UIFont.FontType.DemiBold, size: size)
-    }
-    
-    class func AvenirNextRegular (size: CGFloat) -> UIFont {
-        return AvenirNext(UIFont.FontType.Regular, size: size)
+    class func TextFont () -> UIFont {
+        return AvenirNextRegular(13)
     }
 }
 
@@ -231,7 +239,6 @@ class MaterialCardView: UIView {
     
     // MARK: Constants
     
-    let cardPadding: CGFloat = 10
     let cardRadius: CGFloat = 5
     
     let estimatedRowHeight: CGFloat = 53
@@ -281,9 +288,9 @@ class MaterialCardView: UIView {
             headerBackgroundColor: UIColor.CardHeaderColor(),
             cellBackgroundColor: UIColor.CardCellColor(),
             borderColor: UIColor.CardBorderColor(),
-            titleFont: UIFont.AvenirNextDemiBold(18),
+            titleFont: UIFont.TitleFont(),
             titleColor: UIColor.TitleColor(),
-            textFont: UIFont.AvenirNextRegular(15),
+            textFont: UIFont.TextFont(),
             textColor: UIColor.TextColor(),
             rippleColor: UIColor.Gray(51, alpha: 0.1),
             rippleDuration: 0.4)
@@ -311,12 +318,12 @@ class MaterialCardView: UIView {
     }
 
     func materialize () {
-        
+
         addShadow(
             CGSize (width: 0, height: 1),
-            radius: 1,
+            radius: 1.5,
             color: UIColor.TitleColor(),
-            opacity: 1,
+            opacity: 0.5,
             cornerRadius: cardRadius)
         
         contentView.setCornerRadius(cardRadius)
@@ -342,7 +349,6 @@ class MaterialCardView: UIView {
         cell.backgroundColor = appeareance.headerBackgroundColor
 
         cell.addView(view)
-        cell.h = max (cell.h, estimatedHeaderHeight)
         
         items.insert(cell, atIndex: 0)
         add(cell)
@@ -365,7 +371,6 @@ class MaterialCardView: UIView {
         cell.backgroundColor = appeareance.headerBackgroundColor
         
         cell.addView(view)
-        cell.h = max (cell.h, estimatedHeaderHeight)
         
         items.insert(cell, atIndex: items.count)
         add(cell)
@@ -396,7 +401,6 @@ class MaterialCardView: UIView {
         cell.backgroundColor = appeareance.cellBackgroundColor
         
         cell.addView(view)
-        cell.h = max (cell.h, estimatedRowHeight)
         
         if let act = action {
             cell.addRipple(
@@ -412,7 +416,6 @@ class MaterialCardView: UIView {
     
     func addCell (cell: MaterialCardCell) {
         cell.backgroundColor = appeareance.cellBackgroundColor
-        cell.h = max (cell.h, estimatedRowHeight)
         
         items.append(cell)
         add(cell)
