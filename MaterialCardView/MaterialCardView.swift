@@ -79,24 +79,33 @@ extension UIView {
 extension UIColor {
     
     class func CardHeaderColor () -> UIColor {
-        return UIColor.RGBColor(242, g: 242, b: 242)
+        return Gray(242)
     }
     
     class func CardCellColor () -> UIColor {
-        return UIColor.RGBColor(249, g: 249, b: 249)
+        return Gray(249)
     }
     
     class func CardBorderColor () -> UIColor {
-        return UIColor.RGBColor(200, g: 199, b: 204)
+        return Gray(200)
+    }
+
+    
+    class func RippleColor () -> UIColor {
+        return UIColor.Gray(51, alpha: 0.1)
+    }
+    
+    class func ShadowColor () -> UIColor {
+        return UIColor.Gray(51)
     }
     
     
     class func TitleColor () -> UIColor {
-        return UIColor.RGBColor(51, g: 51, b: 51)
+        return Gray(51)
     }
     
     class func TextColor () -> UIColor {
-        return RGBColor(144, g: 144, b: 144)
+        return Gray(144)
     }
 }
 
@@ -124,6 +133,7 @@ struct MaterialCardAppeareance {
     var textFont: UIFont
     var textColor: UIColor
     
+    var shadowColor: UIColor
     var rippleColor: UIColor
     var rippleDuration: NSTimeInterval
     
@@ -135,6 +145,7 @@ struct MaterialCardAppeareance {
         titleColor: UIColor,
         textFont: UIFont,
         textColor: UIColor,
+        shadowColor: UIColor,
         rippleColor: UIColor,
         rippleDuration: NSTimeInterval) {
         self.headerBackgroundColor = headerBackgroundColor
@@ -147,6 +158,7 @@ struct MaterialCardAppeareance {
         self.textFont = textFont
         self.textColor = textColor
             
+        self.shadowColor = shadowColor
         self.rippleColor = rippleColor
         self.rippleDuration = rippleDuration
     }
@@ -239,7 +251,10 @@ class MaterialCardView: UIView {
     
     // MARK: Constants
     
-    let cardRadius: CGFloat = 5
+    let cardRadius: CGFloat = 3
+    let rippleDuration: NSTimeInterval = 0.4
+    let shadowOpacity: Float = 0.5
+    let shadowRadius: CGFloat = 1.5
     
     let estimatedRowHeight: CGFloat = 53
     let estimatedHeaderHeight: CGFloat = 40
@@ -292,8 +307,9 @@ class MaterialCardView: UIView {
             titleColor: UIColor.TitleColor(),
             textFont: UIFont.TextFont(),
             textColor: UIColor.TextColor(),
-            rippleColor: UIColor.Gray(51, alpha: 0.1),
-            rippleDuration: 0.4)
+            shadowColor: UIColor.ShadowColor(),
+            rippleColor: UIColor.RippleColor(),
+            rippleDuration: rippleDuration)
     }
     
     
@@ -321,9 +337,9 @@ class MaterialCardView: UIView {
 
         addShadow(
             CGSize (width: 0, height: 1),
-            radius: 1.5,
-            color: UIColor.TitleColor(),
-            opacity: 0.5,
+            radius: shadowRadius,
+            color: UIColor.ShadowColor(),
+            opacity: shadowOpacity,
             cornerRadius: cardRadius)
         
         contentView.setCornerRadius(cardRadius)

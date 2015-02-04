@@ -1,5 +1,6 @@
 MaterialCardView
 ================
+Create material design cards
 
 Demo
 ----
@@ -64,7 +65,7 @@ And start to add `MaterialCardCell`s
 >remove `MaterialCardCell`s.  
 >This is why you don't set its `height` value when initilize it.
 
-`MaterialCardAppeareance`
+MaterialCardAppeareance
 -----------
 
 ``` swift
@@ -78,6 +79,7 @@ And start to add `MaterialCardCell`s
     var textFont: UIFont
     var textColor: UIColor
     
+    var shadowColor: UIColor
     var rippleColor: UIColor
     var rippleDuration: NSTimeInterval
 ```
@@ -96,8 +98,9 @@ The default appeareance is
             titleColor: UIColor.TitleColor(),
             textFont: UIFont.TextFont(),
             textColor: UIColor.TextColor(),
-            rippleColor: UIColor.Gray(51, alpha: 0.1),
-            rippleDuration: 0.4)
+            shadowColor: UIColor.ShadowColor(),
+            rippleColor: UIColor.RippleColor(),
+            rippleDuration: rippleDuration)
     }
 ```
 
