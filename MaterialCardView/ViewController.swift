@@ -20,7 +20,10 @@ class ViewController: UIViewController {
         let scroll = UIScrollView (frame: view.frame)
         view.addSubview(scroll)
         
-        let c = MaterialCardView (x: 10, y: StatusBarHeight + 10, w: ScreenWidth-20)
+        let c = MaterialCardView (
+            x: 10,
+            y: StatusBarHeight + 10,
+            w: ScreenWidth-20)
         scroll.addSubview(c)
         
         c.addHeader("Header")
