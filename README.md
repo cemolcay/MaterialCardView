@@ -1,6 +1,6 @@
 MaterialCardView
 ================
-Create material design cards
+Create [material design](http://www.google.com/design/spec/material-design/introduction.html) cards quick and easy
 
 Demo
 ----
