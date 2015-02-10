@@ -22,7 +22,6 @@ let UIViewAnimationDuration: NSTimeInterval = 1
 let UIViewAnimationSpringDamping: CGFloat = 0.5
 let UIViewAnimationSpringVelocity: CGFloat = 0.5
 
-private var UIViewBlockBadge: UInt8 = 0
 
 extension UIView {
     
@@ -140,7 +139,7 @@ extension UIView {
         return self.top - offset
     }
     
-    func botttomWithOffset (offset: CGFloat) -> CGFloat {
+    func bottomWithOffset (offset: CGFloat) -> CGFloat {
         return self.bottom + offset
     }
     
@@ -359,30 +358,6 @@ extension UIView {
 }
 
 
-// MARK: Badge Extensions
-
-extension UIView {
-    
-    var badge: BlockBadge? {
-        get {
-            return objc_getAssociatedObject(self, &UIViewBlockBadge) as? BlockBadge
-        } set (value) {
-            objc_setAssociatedObject(self, &UIViewBlockBadge, value, UInt(OBJC_ASSOCIATION_RETAIN))
-        }
-    }
-    
-    func setBadge (text: String) {
-        if let b = badge {
-            b.text = text
-        } else {
-            badge = BlockBadge (color: UIColor.redColor(), font: UIFont.systemFontOfSize(15))
-            badge?.text = text
-        }
-    }
-    
-}
-
-
 // MARK: Gesture Extensions
 
 extension UIView {
@@ -582,6 +557,14 @@ extension UIViewController {
     func pop () {
         navigationController?.popViewControllerAnimated(true)
     }
+
+    func present (vc: UIViewController) {
+        presentViewController(vc, animated: true, completion: nil)
+    }
+    
+    func dismiss (completion: (()->Void)?) {
+        dismissViewControllerAnimated(true, completion: completion)
+    }
 }
 
 
@@ -701,22 +684,18 @@ extension UILabel {
     
     
     
-    func getEstimatedRect (
+    func getEstimatedSize (
         width: CGFloat = CGFloat.max,
-        height: CGFloat = CGFloat.max) -> CGRect {
-            let rect = attributedText.boundingRectWithSize(
-                CGSize (width: width, height: height),
-                options: NSStringDrawingOptions.UsesLineFragmentOrigin,
-                context: nil)
-            return rect
+        height: CGFloat = CGFloat.max) -> CGSize {
+            return sizeThatFits(CGSize(width: width, height: height))
     }
     
     func getEstimatedHeight () -> CGFloat {
-        return getEstimatedRect(width: w).height
+        return sizeThatFits(CGSize(width: w, height: CGFloat.max)).height
     }
     
     func getEstimatedWidth () -> CGFloat {
-        return getEstimatedRect(height: h).width
+        return sizeThatFits(CGSize(width: CGFloat.max, height: h)).width
     }
     
     
@@ -1090,6 +1069,33 @@ extension UIImageView {
         image: UIImage) {
             self.init (frame: CGRect (x: x, y: y, width: image.aspectWidthForHeight(height), height: height), image: image)
     }
+
+    
+    func imageWithUrl (url: String) {
+        imageRequest(url, { (image) -> Void in
+            if let img = image {
+                self.image = image
+            }
+        })
+    }
+    
+    func imageWithUrl (url: String, placeholder: UIImage) {
+        self.image = placeholder
+        imageRequest(url, { (image) -> Void in
+            if let img = image {
+                self.image = image
+            }
+        })
+    }
+    
+    func imageWithUrl (url: String, placeholder: String) {
+        self.image = UIImage (named: placeholder)
+        imageRequest(url, { (image) -> Void in
+            if let img = image {
+                self.image = image
+            }
+        })
+    }
 }
 
 
@@ -1280,6 +1286,73 @@ func delay (
 
 
 
+// MARK: - DownloadTask
+
+func urlRequest (
+    url: String,
+    success: (NSData?)->Void,
+    error: ((NSError)->Void)? = nil) {
+    NSURLConnection.sendAsynchronousRequest(
+        NSURLRequest (URL: NSURL (string: url)!),
+        queue: NSOperationQueue.mainQueue(),
+        completionHandler: { response, data, err in
+            if let e = err {
+                error? (e)
+            } else {
+                success (data)
+            }
+    })
+}
+
+func imageRequest (
+    url: String,
+    success: (UIImage?)->Void) {
+    
+    urlRequest(url) {data in
+        if let d = data {
+            success (UIImage (data: d))
+        }
+    }
+}
+
+func jsonRequest (
+    url: String,
+    success: (AnyObject?->Void),
+    error: ((NSError)->Void)?) {
+    urlRequest(
+        url,
+        { (data)->Void in
+            let json: AnyObject? = dataToJsonDict(data)
+            success (json)
+        },
+        { (err)->Void in
+            if let e = error {
+                e (err)
+            }
+        })
+}
+
+func dataToJsonDict (data: NSData?) -> AnyObject? {
+
+    if let d = data {
+        var error: NSError?
+        let json: AnyObject? = NSJSONSerialization.JSONObjectWithData(
+            d,
+            options: NSJSONReadingOptions.AllowFragments,
+            error: &error)
+        
+        if let e = error {
+            return nil
+        } else {
+            return json
+        }
+    } else {
+        return nil
+    }
+}
+
+
+
 // MARK - UIScreen
 
 var Orientation: UIInterfaceOrientation {
@@ -1421,6 +1494,19 @@ func alert (
         return a
 }
 
+func actionSheet (
+    title: String,
+    message: String,
+    actions: [UIAlertAction]) -> UIAlertController {
+        let a = UIAlertController (title: title, message: message, preferredStyle: .ActionSheet)
+        
+        for action in actions {
+            a.addAction(action)
+        }
+        
+        return a
+}
+
 
 
 // MARK: - UIBarButtonItem
@@ -1463,6 +1549,10 @@ func barButtonItem (
 // MARK: - BlockButton
 
 class BlockButton: UIButton {
+    
+    init (x: CGFloat, y: CGFloat, w: CGFloat, h: CGFloat) {
+        super.init (frame: CGRect (x: x, y: y, width: w, height: h))
+    }
     
     override init (frame: CGRect) {
         super.init(frame: frame)

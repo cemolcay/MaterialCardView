@@ -8,73 +8,84 @@
 
 import UIKit
 
-extension UIView {
+enum MaterialAnimationTimingFunction {
+    case SwiftEnterInOut
+    case SwiftExitInOut
     
-    enum MaterialAnimationTimingFunction {
-        case SwiftEnterInOut
-        case SwiftExitInOut
-        
-        func timingFunction () -> CAMediaTimingFunction {
-            switch self {
-                
-            case .SwiftEnterInOut:
-                return CAMediaTimingFunction (controlPoints: 0.4027, 0, 0.1, 1)
-                
-            case .SwiftExitInOut:
-                return CAMediaTimingFunction (controlPoints: 0.4027, 0, 0.2256, 1)
-            }
+    func timingFunction () -> CAMediaTimingFunction {
+        switch self {
+            
+        case .SwiftEnterInOut:
+            return CAMediaTimingFunction (controlPoints: 0.4027, 0, 0.1, 1)
+            
+        case .SwiftExitInOut:
+            return CAMediaTimingFunction (controlPoints: 0.4027, 0, 0.2256, 1)
         }
     }
-    
-    enum MaterialRippleLocation {
-        case Center
-        case TouchLocation
+}
+
+enum MaterialRippleLocation {
+    case Center
+    case TouchLocation
+}
+
+
+extension UIView {
+
+    func addRipple (action: (()->Void)?) {
+        addRipple(true, action: action)
     }
     
     func addRipple (
-        color: UIColor = UIColor.Gray(51, alpha: 0.1),
-        duration: NSTimeInterval = 0.7,
-        location: MaterialRippleLocation = .TouchLocation,
-        action: (()->Void)? = nil) {
-            
-        let overlay = CALayer ()
-        overlay.frame = layer.frame
-        overlay.backgroundColor = UIColor.Gray(0, alpha: 0.05).CGColor
-        overlay.opacity = 0
-        layer.addSublayer(overlay)
-            
-        let size = min(w, h) / 2
-        let rippleLayer = CALayer ()
-        rippleLayer.frame = CGRect (x: 0, y: 0, width: size, height: size)
-        rippleLayer.backgroundColor = color.CGColor
-        rippleLayer.opacity = 0
-        rippleLayer.cornerRadius = size/2
-            
-        layer.masksToBounds = true
-        layer.addSublayer(rippleLayer)
+        withOverlay: Bool,
+        action: (()->Void)?) {
+        addRipple(
+            UIColor.Gray(51, alpha: 0.1),
+            duration: 0.9,
+            location: .TouchLocation,
+            withOverlay: withOverlay,
+            action: action)
+    }
+    
+    func addRipple (
+        color: UIColor,
+        duration: NSTimeInterval,
+        location: MaterialRippleLocation,
+        withOverlay: Bool,
+        action: (()->Void)?) {
+        
+        let ripple = RippleLayer (
+            superLayer: layer,
+            color: color,
+            animationDuration: duration,
+            location: location,
+            withOverlay: withOverlay,
+            action: action)
 
-        CATransaction.disableActions()
-            
         addTapGesture(1, action: { [unowned self] (tap) -> () in
-            var loc: CGPoint!
-            
-            if location == .Center {
-                loc = self.center
-            } else {
-                loc = tap.locationInView(self)
-            }
-            
-            rippleLayer.position = loc
-            self.animateRipple(rippleLayer, overlay: overlay, duration: duration)
+            ripple.animate(tap.locationInView (self))
             action? ()
         })
     }
+}
+
+class RippleLayer: CALayer {
     
-    private func animateRipple (
-        ripple: CALayer,
-        overlay: CALayer,
-        duration: NSTimeInterval) {
-        
+    
+    // MARK: Properties
+    
+    var color: UIColor!
+    var animationDuration: NSTimeInterval!
+    var location: MaterialRippleLocation! = .TouchLocation
+    
+    var action: (()->Void)?
+    var overlay: CALayer?
+    
+    
+    
+    // MARK: Animations
+    
+    lazy var rippleAnimation: CAAnimation = {
         let scale = CABasicAnimation (keyPath: "transform.scale")
         scale.fromValue = 1
         scale.toValue = 15
@@ -83,23 +94,108 @@ extension UIView {
         opacity.fromValue = 0
         opacity.toValue = 1
         opacity.autoreverses = true
-        opacity.duration = duration/2
+        opacity.duration = self.animationDuration / 2
         
         let anim = CAAnimationGroup ()
         anim.animations = [scale, opacity]
-        anim.duration = duration
+        anim.duration = self.animationDuration
         anim.timingFunction = MaterialAnimationTimingFunction.SwiftEnterInOut.timingFunction()
         
+        return anim
+    } ()
+    
+    lazy var overlayAnimation: CABasicAnimation = {
         let overlayAnim = CABasicAnimation (keyPath: "opacity")
         overlayAnim.fromValue = 1
         overlayAnim.toValue = 0
-        overlayAnim.duration = duration
+        overlayAnim.duration = self.animationDuration
         overlayAnim.timingFunction = MaterialAnimationTimingFunction.SwiftEnterInOut.timingFunction()
         
-        overlay.addAnimation(overlayAnim, forKey: "overlayAnimation")
-        ripple.addAnimation(anim, forKey: "rippleAnimation")
+        return overlayAnim
+    } ()
+    
+    
+    
+    // MARK: Lifecylce 
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
+    
+    override init!(layer: AnyObject!) {
+        super.init(layer: layer)
+    }
+    
+    init (
+        superLayer: CALayer,
+        color: UIColor,
+        animationDuration: NSTimeInterval,
+        location: MaterialRippleLocation,
+        withOverlay: Bool,
+        action: (()->Void)?) {
+            
+        super.init()
+        self.color = color
+        self.animationDuration = animationDuration
+        self.location = location
+        self.action = action
+            
+        initRipple(superLayer)
+
+        if withOverlay {
+            initOverlay(superLayer)
+        }
+    }
+
+    
+    
+    // MARK: Setup
+    
+    func initOverlay (superLayer: CALayer) {
+        overlay = CALayer ()
+        overlay!.frame = superLayer.frame
+        overlay!.backgroundColor = UIColor.Gray(0, alpha: 0.05).CGColor
+        overlay!.opacity = 0
+        superLayer.addSublayer(overlay!)
+    }
+    
+    func initRipple (superLayer: CALayer) {
+        let size = min(superLayer.frame.size.width, superLayer.frame.size.height) / 2
+        frame = CGRect (x: 0, y: 0, width: size, height: size)
+        backgroundColor = color.CGColor
+        opacity = 0
+        cornerRadius = size/2
+        
+        masksToBounds = true
+        superLayer.masksToBounds = true
+        superLayer.addSublayer(self)
+    }
+    
+    
+    
+    // MARK: Animate
+    
+    func animate (touchLocation: CGPoint) {
+        
+        CATransaction.begin()
+        CATransaction.setValue(true, forKey: kCATransactionDisableActions)
+        if location == .TouchLocation {
+            position = touchLocation
+        } else {
+            position = superlayer.position
+        }
+        CATransaction.commit()
+    
+        let animationGroup = rippleAnimation as CAAnimationGroup
+        if let over = overlay {
+            over.addAnimation(overlayAnimation, forKey: "overlayAnimation")
+        }
+        
+        addAnimation(animationGroup, forKey: "rippleAnimation")
+    }
+
 }
+
 
 extension UIColor {
     
@@ -173,6 +269,7 @@ struct MaterialCardAppeareance {
         shadowColor: UIColor,
         rippleColor: UIColor,
         rippleDuration: NSTimeInterval) {
+            
         self.headerBackgroundColor = headerBackgroundColor
         self.cellBackgroundColor = cellBackgroundColor
         self.borderColor = borderColor
@@ -277,7 +374,7 @@ class MaterialCardView: UIView {
     // MARK: Constants
     
     let cardRadius: CGFloat = 3
-    let rippleDuration: NSTimeInterval = 0.8
+    let rippleDuration: NSTimeInterval = 0.9
     let shadowOpacity: Float = 0.5
     let shadowRadius: CGFloat = 1.5
     
@@ -369,7 +466,42 @@ class MaterialCardView: UIView {
         
         contentView.setCornerRadius(cardRadius)
     }
+    
+    func shadowRadiusAnimation (to: CGFloat) {
+        let radiusAnim = CABasicAnimation (keyPath: "shadowRadius")
+        radiusAnim.fromValue = layer.shadowRadius
+        radiusAnim.toValue = to
+        radiusAnim.duration = rippleDuration
+        radiusAnim.timingFunction = MaterialAnimationTimingFunction.SwiftEnterInOut.timingFunction()
+        radiusAnim.autoreverses = true
+        
+        let offsetAnim = CABasicAnimation (keyPath: "shadowOffset")
+        offsetAnim.fromValue = NSValue (CGSize: layer.shadowOffset)
+        offsetAnim.toValue = NSValue (CGSize: layer.shadowOffset + CGSize (width: 0, height: to))
+        offsetAnim.duration = rippleDuration
+        offsetAnim.timingFunction = MaterialAnimationTimingFunction.SwiftEnterInOut.timingFunction()
+        offsetAnim.autoreverses = true
+        
+        let anim = CAAnimationGroup ()
+        anim.animations = [radiusAnim, offsetAnim]
+        anim.duration = rippleDuration*2
+        anim.timingFunction = MaterialAnimationTimingFunction.SwiftEnterInOut.timingFunction()
+        
+        layer.addAnimation(anim, forKey: "shadowAnimation")
+    }
 
+    override func addRipple(action: (() -> Void)?) {
+        contentView.addRipple(
+            appeareance.rippleColor,
+            duration: appeareance.rippleDuration,
+            location: .TouchLocation,
+            withOverlay: false,
+            action: { [unowned self] sender in
+                self.shadowRadiusAnimation(6)
+                action? ()
+            })
+    }
+    
     
     
     // MARK: Add Cell
@@ -427,9 +559,10 @@ class MaterialCardView: UIView {
         
         if let act = action {
             cell.addRipple(
-                color: appeareance.rippleColor,
+                appeareance.rippleColor,
                 duration: appeareance.rippleDuration,
                 location: .TouchLocation,
+                withOverlay: true,
                 action: act)
         }
         
@@ -445,9 +578,10 @@ class MaterialCardView: UIView {
         
         if let act = action {
             cell.addRipple(
-                color: appeareance.rippleColor,
+                appeareance.rippleColor,
                 duration: appeareance.rippleDuration,
                 location: .TouchLocation,
+                withOverlay: true,
                 action: act)
         }
         

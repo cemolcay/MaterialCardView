@@ -20,6 +20,7 @@ class ViewController: UIViewController {
         let scroll = UIScrollView (frame: view.frame)
         view.addSubview(scroll)
         
+        
         let c = MaterialCardView (
             x: 10,
             y: StatusBarHeight + 10,
@@ -31,15 +32,25 @@ class ViewController: UIViewController {
         c.addCell("Item 2") { sender in println("item 2 tapped") }
         c.addCell("Item 3") { sender in println("item 3 tapped") }
         
-        let cc = MaterialCardView (x: 10, y: c.botttomWithOffset(10), w: c.w)
+        
+        let cc = MaterialCardView (x: 10, y: c.bottomWithOffset(10), w: c.w)
         scroll.addSubview(cc)
         
         cc.addHeader("Header")
-        cc.addCell("Item 1")
-        cc.addCell("Item 2")
-        cc.addCell("Item 3")
+        cc.addCell("Item 1") { sender in println("item 1 tapped") }
+        cc.addCell("Item 2") { sender in println("item 2 tapped") }
+        cc.addCell("Item 3") { sender in println("item 3 tapped") }
         
-        scroll.contentHeight = cc.botttomWithOffset(10)
+        
+        let ccc = MaterialCardView (x: 10, y: cc.bottomWithOffset(10), w: c.w)
+        ccc.addCell("\n\nPlain Material Card\n\n")
+        
+        ccc.addRipple { () -> Void in
+            println("all card ripples")
+        }
+        
+        scroll.addSubview(ccc)
+        scroll.contentHeight = ccc.bottomWithOffset(10)
     }
     
     func addFooter (c: MaterialCardView) {
@@ -66,7 +77,6 @@ class ViewController: UIViewController {
         
         container.addSubview(label)
         container.h = label.h
-        container.addRipple()
     
         c.addFooter(container)
     }
