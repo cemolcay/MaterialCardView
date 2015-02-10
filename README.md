@@ -141,9 +141,35 @@ MaterialAnimationTimingFunction
 MaterialRippleLocation
 ----------------------
 
-![alt tag](https://raw.githubusercontent.com/cemolcay/MaterialCardView/master/ripple.gif)
-
     enum MaterialRippleLocation {
         case Center
         case TouchLocation
     }
+
+
+RippleLayer
+-----------
+
+##### Adds ripple animation when you add cells with action
+
+``` swift
+	c.addCell("Item 1") { sender in 
+		println("item 1 tapped") 
+	}
+```
+
+![alt tag](https://raw.githubusercontent.com/cemolcay/MaterialCardView/master/ripple.gif)
+
+
+##### Add ripple to material card
+
+``` swift
+     c.addRipple { () -> Void in
+       println("all card ripples")
+   }
+```
+
+![alt tag](https://raw.githubusercontent.com/cemolcay/MaterialCardView/master/shadow.gif)
+
+
+
