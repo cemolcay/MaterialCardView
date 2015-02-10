@@ -72,14 +72,14 @@ class ViewController: UIViewController {
         
         container.addSubview(label)
         container.h = label.h
-        container.addRipple(
-            UIColor.Gray(51, alpha: 0.2),
-            duration: 0.5,
-            location: .TouchLocation,
-            action: {
-                println("act")
-        })
-        
+        container.addRipple()
+//            UIColor.Gray(51, alpha: 0.2),
+//            duration: 0.5,
+//            location: .TouchLocation,
+//            action: {
+//                println("act")
+//            })
+    
         c.addFooter(container)
     }
 }
