@@ -77,7 +77,7 @@ extension UIView {
         
         let scale = CABasicAnimation (keyPath: "transform.scale")
         scale.fromValue = 1
-        scale.toValue = 10
+        scale.toValue = 15
         
         let opacity = CABasicAnimation (keyPath: "opacity")
         opacity.fromValue = 0
@@ -277,7 +277,7 @@ class MaterialCardView: UIView {
     // MARK: Constants
     
     let cardRadius: CGFloat = 3
-    let rippleDuration: NSTimeInterval = 0.4
+    let rippleDuration: NSTimeInterval = 0.8
     let shadowOpacity: Float = 0.5
     let shadowRadius: CGFloat = 1.5
     

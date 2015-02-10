@@ -27,10 +27,9 @@ class ViewController: UIViewController {
         scroll.addSubview(c)
         
         c.addHeader("Header")
-        c.addCell("Item 1")
-        c.addCell("Item 2")
-        c.addCell("Item 3")
-        addFooter(c)
+        c.addCell("Item 1") { sender in println("item 1 tapped") }
+        c.addCell("Item 2") { sender in println("item 2 tapped") }
+        c.addCell("Item 3") { sender in println("item 3 tapped") }
         
         let cc = MaterialCardView (x: 10, y: c.botttomWithOffset(10), w: c.w)
         scroll.addSubview(cc)
@@ -58,12 +57,7 @@ class ViewController: UIViewController {
                     font: UIFont.TitleFont(),
                     style: .plain))
                 att.appendAttributedString(NSAttributedString (
-                    text: "\nAttributed String",
-                    color: UIColor.TextColor(),
-                    font: UIFont.TitleFont(),
-                    style: .plain))
-                att.appendAttributedString(NSAttributedString (
-                    text: "\npowered by CEMKit",
+                    text: "\nsome attributed string",
                     color: UIColor.TextColor(),
                     font: UIFont.TextFont(),
                     style: .underline(NSUnderlineStyle.StyleSingle, UIColor.blackColor())))
@@ -73,12 +67,6 @@ class ViewController: UIViewController {
         container.addSubview(label)
         container.h = label.h
         container.addRipple()
-//            UIColor.Gray(51, alpha: 0.2),
-//            duration: 0.5,
-//            location: .TouchLocation,
-//            action: {
-//                println("act")
-//            })
     
         c.addFooter(container)
     }
