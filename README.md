@@ -105,3 +105,45 @@ The default appeareance is
 ```
 
 Which are `UIColor` and `UIFont` extensions defined at top of `MaterialCardView.swift` file.
+
+
+MaterialAnimationTimingFunction
+-------------------------------
+
+``` swift
+    enum MaterialAnimationTimingFunction {
+        case SwiftEnterInOut
+        case SwiftExitInOut
+        
+        func timingFunction () -> CAMediaTimingFunction {
+            switch self {
+                
+            case .SwiftEnterInOut:
+                return CAMediaTimingFunction (controlPoints: 0.4027, 0, 0.1, 1)
+                
+            case .SwiftExitInOut:
+                return CAMediaTimingFunction (controlPoints: 0.4027, 0, 0.2256, 1)
+            }
+        }
+    }
+
+```
+
+#### SwiftEnterInOut
+
+	(0.4027, 0, 0.1, 1)
+	
+#### SwiftExitInOut
+	
+	(0.4027, 0, 0.2256, 1)
+	
+
+MaterialRippleLocation
+----------------------
+
+![alt tag](https://raw.githubusercontent.com/cemolcay/MaterialCardView/master/ripple.gif)
+
+    enum MaterialRippleLocation {
+        case Center
+        case TouchLocation
+    }
