@@ -19,7 +19,7 @@ Copy & paste `MaterialCardView.swift` and `CEMKit.swift` to your project
 Add to your `podfile`
 
 ``` ruby
-	pod 'MaterialCardView', '~> 0.0.1'
+	pod 'MaterialCardView', '~> 0.0.2'
 ```
 
 
