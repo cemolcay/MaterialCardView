@@ -23,8 +23,8 @@ class ViewController: UIViewController {
         
         let c = MaterialCardView (
             x: 10,
-            y: StatusBarHeight + 10,
-            w: ScreenWidth-20)
+            y: UIScreen.StatusBarHeight + 10,
+            w: UIScreen.ScreenWidth-20)
         scroll.addSubview(c)
         
         c.addHeader("Header")
@@ -78,7 +78,7 @@ class ViewController: UIViewController {
         container.addSubview(label)
         container.h = label.h
     
-        c.addFooter(container)
+        c.addFooterView (container)
     }
 }
 

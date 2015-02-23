@@ -186,7 +186,7 @@ class RippleLayer: CALayer {
         }
         CATransaction.commit()
     
-        let animationGroup = rippleAnimation as CAAnimationGroup
+        let animationGroup = rippleAnimation as! CAAnimationGroup
         if let over = overlay {
             over.addAnimation(overlayAnimation, forKey: "overlayAnimation")
         }
@@ -468,6 +468,7 @@ class MaterialCardView: UIView {
     }
     
     func shadowRadiusAnimation (to: CGFloat) {
+        
         let radiusAnim = CABasicAnimation (keyPath: "shadowRadius")
         radiusAnim.fromValue = layer.shadowRadius
         radiusAnim.toValue = to
@@ -517,7 +518,7 @@ class MaterialCardView: UIView {
         add(cell)
     }
     
-    func addHeader (view: UIView) {
+    func addHeaderView (view: UIView) {
         let cell = MaterialCardCell (card: self)
         cell.backgroundColor = appeareance.headerBackgroundColor
 
@@ -539,7 +540,7 @@ class MaterialCardView: UIView {
         add(cell)
     }
     
-    func addFooter (view: UIView) {
+    func addFooterView (view: UIView) {
         let cell = MaterialCardCell (card: self)
         cell.backgroundColor = appeareance.headerBackgroundColor
         
@@ -570,7 +571,7 @@ class MaterialCardView: UIView {
         add(cell)
     }
     
-    func addCell (view: UIView, action: (()->Void)? = nil) {
+    func addCellView (view: UIView, action: (()->Void)? = nil) {
         let cell = MaterialCardCell (card: self)
         cell.backgroundColor = appeareance.cellBackgroundColor
         
@@ -608,7 +609,7 @@ class MaterialCardView: UIView {
     
     // MARK: Remove Cell
     
-    func removeCell (index: Int) {
+    func removeCellAtIndex (index: Int) {
         if index < items.count {
             let cell = items[index]
             removeCell(cell)

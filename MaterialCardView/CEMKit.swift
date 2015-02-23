@@ -15,7 +15,6 @@ import UIKit
 // let APPDELEGATE: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
 
 
-
 // MARK: - UIView
 
 let UIViewAnimationDuration: NSTimeInterval = 1
@@ -33,7 +32,7 @@ extension UIView {
         h: CGFloat) {
             self.init (frame: CGRect (x: x, y: y, width: w, height: h))
     }
-
+    
     convenience init (superView: UIView) {
         self.init (frame: CGRect (origin: CGPointZero, size: superView.size))
     }
@@ -335,10 +334,9 @@ extension UIView {
     
     func pop () {
         setScale(1.1, y: 1.1)
-        spring(0.2) {
-            [unowned self] in
+        spring(0.2, animations: { [unowned self] () -> Void in
             self.setScale(1, y: 1)
-        }
+            })
     }
 }
 
@@ -449,6 +447,44 @@ extension UIView {
 
 
 
+// MARK: - UIScrollView
+
+extension UIScrollView {
+    
+    var contentHeight: CGFloat {
+        get {
+            return contentSize.height
+        } set (value) {
+            contentSize = CGSize (width: contentSize.width, height: value)
+        }
+    }
+    
+    var contentWidth: CGFloat {
+        get {
+            return contentSize.height
+        } set (value) {
+            contentSize = CGSize (width: value, height: contentSize.height)
+        }
+    }
+    
+    var offsetX: CGFloat {
+        get {
+            return contentOffset.x
+        } set (value) {
+            contentOffset = CGPoint (x: value, y: contentOffset.y)
+        }
+    }
+    
+    var offsetY: CGFloat {
+        get {
+            return contentOffset.y
+        } set (value) {
+            contentOffset = CGPoint (x: contentOffset.x, y: value)
+        }
+    }
+}
+
+
 // MARK: - UIViewController
 
 extension UIViewController {
@@ -557,7 +593,7 @@ extension UIViewController {
     func pop () {
         navigationController?.popViewControllerAnimated(true)
     }
-
+    
     func present (vc: UIViewController) {
         presentViewController(vc, animated: true, completion: nil)
     }
@@ -566,46 +602,6 @@ extension UIViewController {
         dismissViewControllerAnimated(true, completion: completion)
     }
 }
-
-
-
-// MARK: - UIScrollView
-
-extension UIScrollView {
-    
-    var contentHeight: CGFloat {
-        get {
-            return contentSize.height
-        } set (value) {
-            contentSize = CGSize (width: contentSize.width, height: value)
-        }
-    }
-    
-    var contentWidth: CGFloat {
-        get {
-            return contentSize.height
-        } set (value) {
-            contentSize = CGSize (width: value, height: contentSize.height)
-        }
-    }
-    
-    var offsetX: CGFloat {
-        get {
-            return contentOffset.x
-        } set (value) {
-            contentOffset = CGPoint (x: value, y: contentOffset.y)
-        }
-    }
-    
-    var offsetY: CGFloat {
-        get {
-            return contentOffset.y
-        } set (value) {
-            contentOffset = CGPoint (x: contentOffset.x, y: value)
-        }
-    }
-}
-
 
 
 // MARK: - UILabel
@@ -669,11 +665,11 @@ extension UILabel {
             if let att = attributedStrings?[index] {
                 let newAtt = NSMutableAttributedString (string: newText)
                 
-                att.enumerateAttributesInRange(NSMakeRange(0, countElements(att.string)-1),
+                att.enumerateAttributesInRange(NSMakeRange(0, count(att.string)-1),
                     options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired,
                     usingBlock: { (attribute, range, stop) -> Void in
                         for (key, value) in attribute {
-                            newAtt.addAttribute(key as String, value: value, range: range)
+                            newAtt.addAttribute(key as! String, value: value, range: range)
                         }
                     }
                 )
@@ -907,10 +903,10 @@ extension NSAttributedString {
     
     func addAtt (attribute: [NSString: NSObject]) -> NSAttributedString {
         let mutable = NSMutableAttributedString (attributedString: self)
-        let count = countElements(string)
+        let c = count(string)
         
         for (key, value) in attribute {
-            mutable.addAttribute(key, value: value, range: NSMakeRange(0, count))
+            mutable.addAttribute(key as! String, value: value, range: NSMakeRange(0, c))
         }
         
         return mutable
@@ -928,7 +924,7 @@ extension NSAttributedString {
         font: UIFont,
         style: NSAttributedStringStyle = .plain) {
             
-            var atts = [NSFontAttributeName: font, NSForegroundColorAttributeName: color]
+            var atts = [NSFontAttributeName as NSString: font, NSForegroundColorAttributeName as NSString: color]
             atts += style.attribute()
             
             self.init (string: text, attributes: atts)
@@ -962,42 +958,42 @@ extension String {
 
 // MARK: - UIFont
 
+enum FontType: String {
+    case Regular = "Regular"
+    case Bold = "Bold"
+    case DemiBold = "DemiBold"
+    case Light = "Light"
+    case UltraLight = "UltraLight"
+    case Italic = "Italic"
+    case Thin = "Thin"
+    case Book = "Book"
+    case Roman = "Roman"
+    case Medium = "Medium"
+    case MediumItalic = "MediumItalic"
+    case CondensedMedium = "CondensedMedium"
+    case CondensedExtraBold = "CondensedExtraBold"
+    case SemiBold = "SemiBold"
+    case BoldItalic = "BoldItalic"
+    case Heavy = "Heavy"
+}
+
+enum FontName: String {
+    case HelveticaNeue = "HelveticaNeue"
+    case Helvetica = "Helvetica"
+    case Futura = "Futura"
+    case Menlo = "Menlo"
+    case Avenir = "Avenir"
+    case AvenirNext = "AvenirNext"
+    case Didot = "Didot"
+    case AmericanTypewriter = "AmericanTypewriter"
+    case Baskerville = "Baskerville"
+    case Geneva = "Geneva"
+    case GillSans = "GillSans"
+    case SanFranciscoDisplay = "SanFranciscoDisplay"
+    case Seravek = "Seravek"
+}
+
 extension UIFont {
-    
-    enum FontType: String {
-        case Regular = "Regular"
-        case Bold = "Bold"
-        case DemiBold = "DemiBold"
-        case Light = "Light"
-        case UltraLight = "UltraLight"
-        case Italic = "Italic"
-        case Thin = "Thin"
-        case Book = "Book"
-        case Roman = "Roman"
-        case Medium = "Medium"
-        case MediumItalic = "MediumItalic"
-        case CondensedMedium = "CondensedMedium"
-        case CondensedExtraBold = "CondensedExtraBold"
-        case SemiBold = "SemiBold"
-        case BoldItalic = "BoldItalic"
-        case Heavy = "Heavy"
-    }
-    
-    enum FontName: String {
-        case HelveticaNeue = "HelveticaNeue"
-        case Helvetica = "Helvetica"
-        case Futura = "Futura"
-        case Menlo = "Menlo"
-        case Avenir = "Avenir"
-        case AvenirNext = "AvenirNext"
-        case Didot = "Didot"
-        case AmericanTypewriter = "AmericanTypewriter"
-        case Baskerville = "Baskerville"
-        case Geneva = "Geneva"
-        case GillSans = "GillSans"
-        case SanFranciscoDisplay = "SanFranciscoDisplay"
-        case Seravek = "Seravek"
-    }
     
     class func PrintFontFamily (font: FontName) {
         let arr = UIFont.fontNamesForFamilyName(font.rawValue)
@@ -1022,15 +1018,15 @@ extension UIFont {
     class func AvenirNext (
         type: FontType,
         size: CGFloat) -> UIFont {
-        return UIFont.Font(UIFont.FontName.AvenirNext, type: type, size: size)
+            return UIFont.Font(.AvenirNext, type: type, size: size)
     }
     
     class func AvenirNextDemiBold (size: CGFloat) -> UIFont {
-        return AvenirNext(UIFont.FontType.DemiBold, size: size)
+        return AvenirNext(.DemiBold, size: size)
     }
     
     class func AvenirNextRegular (size: CGFloat) -> UIFont {
-        return AvenirNext(UIFont.FontType.Regular, size: size)
+        return AvenirNext(.Regular, size: size)
     }
 }
 
@@ -1069,7 +1065,7 @@ extension UIImageView {
         image: UIImage) {
             self.init (frame: CGRect (x: x, y: y, width: image.aspectWidthForHeight(height), height: height), image: image)
     }
-
+    
     
     func imageWithUrl (url: String) {
         imageRequest(url, { (image) -> Void in
@@ -1088,8 +1084,8 @@ extension UIImageView {
         })
     }
     
-    func imageWithUrl (url: String, placeholder: String) {
-        self.image = UIImage (named: placeholder)
+    func imageWithUrl (url: String, placeholderNamed: String) {
+        self.image = UIImage (named: placeholderNamed)
         imageRequest(url, { (image) -> Void in
             if let img = image {
                 self.image = image
@@ -1209,7 +1205,7 @@ extension UIColor {
         var hexValue: CUnsignedLongLong = 0
         
         if scanner.scanHexLongLong(&hexValue) {
-            switch (countElements(hex)) {
+            switch (count(hex)) {
             case 3:
                 red   = CGFloat((hexValue & 0xF00) >> 8)       / 15.0
                 green = CGFloat((hexValue & 0x0F0) >> 4)       / 15.0
@@ -1241,6 +1237,45 @@ extension UIColor {
 
 
 
+// MARK - UIScreen
+
+extension UIScreen {
+    
+    class var Orientation: UIInterfaceOrientation {
+        get {
+            return UIApplication.sharedApplication().statusBarOrientation
+        }
+    }
+    
+    class var ScreenWidth: CGFloat {
+        get {
+            if UIInterfaceOrientationIsPortrait(Orientation) {
+                return UIScreen.mainScreen().bounds.size.width
+            } else {
+                return UIScreen.mainScreen().bounds.size.height
+            }
+        }
+    }
+    
+    class var ScreenHeight: CGFloat {
+        get {
+            if UIInterfaceOrientationIsPortrait(Orientation) {
+                return UIScreen.mainScreen().bounds.size.height
+            } else {
+                return UIScreen.mainScreen().bounds.size.width
+            }
+        }
+    }
+    
+    class var StatusBarHeight: CGFloat {
+        get {
+            return UIApplication.sharedApplication().statusBarFrame.height
+        }
+    }
+}
+
+
+
 // MARK: - Array
 
 extension Array {
@@ -1257,133 +1292,6 @@ extension Array {
         if(index != nil) {
             self.removeAtIndex(index!)
         }
-    }
-}
-
-
-
-// MARK: - Dictionary
-
-func += <KeyType, ValueType> (inout left: Dictionary<KeyType, ValueType>,
-    right: Dictionary<KeyType, ValueType>) {
-        for (k, v) in right {
-            left.updateValue(v, forKey: k)
-        }
-}
-
-
-
-// MARK: - Dispatch
-
-func delay (
-    seconds: Double,
-    queue: dispatch_queue_t = dispatch_get_main_queue(),
-    after: ()->()) {
-        
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(seconds * Double(NSEC_PER_SEC)))
-        dispatch_after(time, queue, after)
-}
-
-
-
-// MARK: - DownloadTask
-
-func urlRequest (
-    url: String,
-    success: (NSData?)->Void,
-    error: ((NSError)->Void)? = nil) {
-    NSURLConnection.sendAsynchronousRequest(
-        NSURLRequest (URL: NSURL (string: url)!),
-        queue: NSOperationQueue.mainQueue(),
-        completionHandler: { response, data, err in
-            if let e = err {
-                error? (e)
-            } else {
-                success (data)
-            }
-    })
-}
-
-func imageRequest (
-    url: String,
-    success: (UIImage?)->Void) {
-    
-    urlRequest(url) {data in
-        if let d = data {
-            success (UIImage (data: d))
-        }
-    }
-}
-
-func jsonRequest (
-    url: String,
-    success: (AnyObject?->Void),
-    error: ((NSError)->Void)?) {
-    urlRequest(
-        url,
-        { (data)->Void in
-            let json: AnyObject? = dataToJsonDict(data)
-            success (json)
-        },
-        { (err)->Void in
-            if let e = error {
-                e (err)
-            }
-        })
-}
-
-func dataToJsonDict (data: NSData?) -> AnyObject? {
-
-    if let d = data {
-        var error: NSError?
-        let json: AnyObject? = NSJSONSerialization.JSONObjectWithData(
-            d,
-            options: NSJSONReadingOptions.AllowFragments,
-            error: &error)
-        
-        if let e = error {
-            return nil
-        } else {
-            return json
-        }
-    } else {
-        return nil
-    }
-}
-
-
-
-// MARK - UIScreen
-
-var Orientation: UIInterfaceOrientation {
-    get {
-        return UIApplication.sharedApplication().statusBarOrientation
-    }
-}
-
-var ScreenWidth: CGFloat {
-    get {
-        if UIInterfaceOrientationIsPortrait(Orientation) {
-            return UIScreen.mainScreen().bounds.size.width
-        } else {
-            return UIScreen.mainScreen().bounds.size.height
-        }
-    }
-}
-
-var ScreenHeight: CGFloat {
-    get {
-        if UIInterfaceOrientationIsPortrait(Orientation) {
-            return UIScreen.mainScreen().bounds.size.height
-        } else {
-            return UIScreen.mainScreen().bounds.size.width
-        }
-    }
-}
-
-var StatusBarHeight: CGFloat {
-    get {
-        return UIApplication.sharedApplication().statusBarFrame.height
     }
 }
 
@@ -1470,7 +1378,113 @@ func clamp (
     value: CGFloat,
     minimum: CGFloat,
     maximum: CGFloat) -> CGFloat {
-    return min (maximum, max(value, minimum))
+        return min (maximum, max(value, minimum))
+}
+
+
+func aspectHeightForTargetAspectWidth (
+    currentHeight: CGFloat,
+    currentWidth: CGFloat,
+    targetAspectWidth: CGFloat) -> CGFloat {
+        return (targetAspectWidth * currentHeight) / currentWidth
+}
+
+
+func aspectWidthForTargetAspectHeight (
+    currentHeight: CGFloat,
+    currentWidth: CGFloat,
+    targetAspectHeight: CGFloat) -> CGFloat {
+        return (targetAspectHeight * currentWidth) / currentHeight
+}
+
+
+
+// MARK: - Dictionary
+
+func += <KeyType, ValueType> (inout left: Dictionary<KeyType, ValueType>,
+    right: Dictionary<KeyType, ValueType>) {
+        for (k, v) in right {
+            left.updateValue(v, forKey: k)
+        }
+}
+
+
+
+// MARK: - Dispatch
+
+func delay (
+    seconds: Double,
+    queue: dispatch_queue_t = dispatch_get_main_queue(),
+    after: ()->()) {
+        
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(seconds * Double(NSEC_PER_SEC)))
+        dispatch_after(time, queue, after)
+}
+
+
+
+// MARK: - DownloadTask
+
+func urlRequest (
+    url: String,
+    success: (NSData?)->Void,
+    error: ((NSError)->Void)? = nil) {
+    NSURLConnection.sendAsynchronousRequest(
+        NSURLRequest (URL: NSURL (string: url)!),
+        queue: NSOperationQueue.mainQueue(),
+        completionHandler: { response, data, err in
+            if let e = err {
+                error? (e)
+            } else {
+                success (data)
+            }
+    })
+}
+
+func imageRequest (
+    url: String,
+    success: (UIImage?)->Void) {
+    urlRequest(url, { (data) -> Void in
+        if let d = data {
+            success (UIImage (data: d))
+        }
+    })
+}
+
+func jsonRequest (
+    url: String,
+    success: (AnyObject?->Void),
+    error: ((NSError)->Void)?) {
+    urlRequest(
+        url,
+        { (data)->Void in
+            let json: AnyObject? = dataToJsonDict(data)
+            success (json)
+        },
+        error: { (err)->Void in
+            if let e = error {
+                e (err)
+            }
+        })
+}
+
+func dataToJsonDict (data: NSData?) -> AnyObject? {
+
+    if let d = data {
+        var error: NSError?
+        let json: AnyObject? = NSJSONSerialization.JSONObjectWithData(
+            d,
+            options: NSJSONReadingOptions.AllowFragments,
+            error: &error)
+        
+        if let e = error {
+            return nil
+        } else {
+            return json
+        }
+    } else {
+        return nil
+    }
 }
 
 
@@ -1540,9 +1554,6 @@ func barButtonItem (
         
         return UIBarButtonItem (customView: button)
 }
-
-
-// MARK: - Block Classes
 
 
 
@@ -1619,6 +1630,7 @@ class BlockWebView: UIWebView, UIWebViewDelegate {
                 return true
             }
     }
+    
 }
 
 
@@ -1744,138 +1756,3 @@ class BlockLongPress: UILongPressGestureRecognizer {
         longPressAction? (longPress)
     }
 }
-
-
-
-// MARK: BlockBadge
-
-class BlockBadge: UILabel {
-    
-    var attachedView: UIView!
-    
-    override var text: String? {
-        didSet {
-            sizeToFit()
-            h = font.pointSize+5
-            w += 10
-            
-            center = CGPoint (x: attachedView.right, y: attachedView.top)
-        }
-    }
-    
-    init (color: UIColor, font: UIFont) {
-        super.init(frame: CGRect(x: 0, y: 0, width: font.pointSize+5, height: font.pointSize+5))
-        
-        self.backgroundColor = color
-        self.font = font
-        self.textAlignment = .Center
-        setCornerRadius(h/2)
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-}
-
-
-
-// MARK: BlockPicker
-
-class BlockPicker: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate {
-    
-    var items: [String]?
-    var didPick: ((Int)->Void)?
-    
-    init (title: String, items: [String], didPick: (index: Int) -> Void) {
-        super.init()
-        self.items = items
-        self.didPick = didPick
-        
-        self.delegate = self
-        self.dataSource = self
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    
-    // MARK: UIPickerViewDataSource
-    
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return items!.count
-    }
-    
-    
-    // MARK: UIPickerViewDelegate
-    
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        didPick? (row)
-    }
-    
-}
-
-
-
-// MARK: DequeuableScrollView
-
-class DequeuableScrollView: UIScrollView {
-    
-    private var reusableViews: [UIView] = []
-    private var visibleRect: CGRect!
-    
-    
-    override init (frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    required init (coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    
-    override var contentOffset: CGPoint{
-        didSet {
-            visibleRect = CGRect(origin: contentOffset, size: frame.size)
-            updateReusableViews()
-        }
-    }
-    
-    override func addSubview(view: UIView) {
-        super.addSubview(view)
-        reusableViews.append(view)
-        updateReusableViews()
-    }
-    
-    func updateReusableViews () {
-        for v in reusableViews {
-            if CGRectIntersectsRect(v.frame, visibleRect) {
-                if let s = v.superview {
-                    if s == self {
-                        continue
-                    } else {
-                        addSubview(v)
-                    }
-                } else {
-                    addSubview(v)
-                }
-            } else {
-                if let s = v.superview {
-                    if s == self {
-                        v.removeFromSuperview()
-                    } else {
-                        continue
-                    }
-                } else {
-                    continue
-                }
-            }
-        }
-    }
-}
-
-
