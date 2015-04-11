@@ -1639,26 +1639,27 @@ class BlockWebView: UIWebView, UIWebViewDelegate {
 
 class BlockTap: UITapGestureRecognizer {
     
-    private var tapAction: ((UITapGestureRecognizer)->())?
+    private var tapAction: ((UITapGestureRecognizer) -> Void)?
     
     override init(target: AnyObject, action: Selector) {
         super.init(target: target, action: action)
     }
     
-    init (
+    convenience init (
         tapCount: Int,
         fingerCount: Int,
-        action: ((UITapGestureRecognizer)->())?) {
-            super.init()
-            numberOfTapsRequired = tapCount
-            numberOfTouchesRequired = fingerCount
-            tapAction = action
-            addTarget(self, action: "didTap:")
+        action: ((UITapGestureRecognizer) -> Void)?) {
+            self.init()
+            self.numberOfTapsRequired = tapCount
+            self.numberOfTouchesRequired = fingerCount
+            self.tapAction = action
+            self.addTarget(self, action: "didTap:")
     }
     
     func didTap (tap: UITapGestureRecognizer) {
         tapAction? (tap)
     }
+    
 }
 
 
@@ -1667,16 +1668,16 @@ class BlockTap: UITapGestureRecognizer {
 
 class BlockPan: UIPanGestureRecognizer {
     
-    private var panAction: ((UIPanGestureRecognizer)->())?
+    private var panAction: ((UIPanGestureRecognizer) -> Void)?
     
     override init(target: AnyObject, action: Selector) {
         super.init(target: target, action: action)
     }
     
-    init (action: ((UIPanGestureRecognizer)->())?) {
-        super.init()
-        panAction = action
-        addTarget(self, action: "didPan:")
+    convenience init (action: ((UIPanGestureRecognizer) -> Void)?) {
+        self.init()
+        self.panAction = action
+        self.addTarget(self, action: "didPan:")
     }
     
     func didPan (pan: UIPanGestureRecognizer) {
@@ -1690,16 +1691,16 @@ class BlockPan: UIPanGestureRecognizer {
 
 class BlockSwipe: UISwipeGestureRecognizer {
     
-    private var swipeAction: ((UISwipeGestureRecognizer)->())?
+    private var swipeAction: ((UISwipeGestureRecognizer) -> Void)?
     
     override init(target: AnyObject, action: Selector) {
         super.init(target: target, action: action)
     }
     
-    init (direction: UISwipeGestureRecognizerDirection,
+    convenience init (direction: UISwipeGestureRecognizerDirection,
         fingerCount: Int,
-        action: ((UISwipeGestureRecognizer)->())?) {
-            super.init()
+        action: ((UISwipeGestureRecognizer) -> Void)?) {
+            self.init()
             self.direction = direction
             numberOfTouchesRequired = fingerCount
             swipeAction = action
@@ -1717,14 +1718,14 @@ class BlockSwipe: UISwipeGestureRecognizer {
 
 class BlockPinch: UIPinchGestureRecognizer {
     
-    private var pinchAction: ((UIPinchGestureRecognizer)->())?
+    private var pinchAction: ((UIPinchGestureRecognizer) -> Void)?
     
     override init(target: AnyObject, action: Selector) {
         super.init(target: target, action: action)
     }
     
-    init (action: ((UIPinchGestureRecognizer)->())?) {
-        super.init()
+    convenience init (action: ((UIPinchGestureRecognizer) -> Void)?) {
+        self.init()
         pinchAction = action
         addTarget(self, action: "didPinch:")
     }
@@ -1740,14 +1741,14 @@ class BlockPinch: UIPinchGestureRecognizer {
 
 class BlockLongPress: UILongPressGestureRecognizer {
     
-    private var longPressAction: ((UILongPressGestureRecognizer)->())?
+    private var longPressAction: ((UILongPressGestureRecognizer) -> Void)?
     
     override init(target: AnyObject, action: Selector) {
         super.init(target: target, action: action)
     }
     
-    init (action: ((UILongPressGestureRecognizer)->())?) {
-        super.init()
+    convenience init (action: ((UILongPressGestureRecognizer) -> Void)?) {
+        self.init()
         longPressAction = action
         addTarget(self, action: "didLongPressed:")
     }

@@ -397,12 +397,6 @@ class MaterialCardView: UIView {
         super.init(coder: aDecoder)
     }
     
-    override init () {
-        super.init()
-        defaultInit()
-    }
-    
-    
     init (x: CGFloat, y: CGFloat, w: CGFloat) {
         super.init(frame: CGRect (x: x, y: y, width: w, height: 0))
         defaultInit()
