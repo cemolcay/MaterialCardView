@@ -65,7 +65,7 @@ And start to add `MaterialCardCell`s
 >remove `MaterialCardCell`s.  
 >This is why you don't set its `height` value when initilize it.
 
-MaterialCardAppeareance
+MaterialCardAppearance
 -----------
 
 ``` swift
@@ -84,13 +84,13 @@ MaterialCardAppeareance
     var rippleDuration: NSTimeInterval
 ```
 
-You can change `MaterialCardView` appeareance by its `appeareance` property.
+You can change `MaterialCardView` appearance by its `appearance` property.
 
-The default appeareance is
+The default appearance is
 
 ``` swift
-    func defaultAppeareance () -> MaterialCardAppeareance {
-        return MaterialCardAppeareance (
+    func defaultAppearance () -> MaterialCardAppearance {
+        return MaterialCardAppearance (
             headerBackgroundColor: UIColor.CardHeaderColor(),
             cellBackgroundColor: UIColor.CardCellColor(),
             borderColor: UIColor.CardBorderColor(),
