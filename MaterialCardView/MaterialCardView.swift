@@ -31,7 +31,7 @@ enum MaterialRippleLocation {
 
 
 extension UIView {
-
+    
     func addRipple (action: (()->Void)?) {
         addRipple(true, action: action)
     }
@@ -39,12 +39,12 @@ extension UIView {
     func addRipple (
         withOverlay: Bool,
         action: (()->Void)?) {
-        addRipple(
-            UIColor.Gray(51, alpha: 0.1),
-            duration: 0.9,
-            location: .TouchLocation,
-            withOverlay: withOverlay,
-            action: action)
+            addRipple(
+                UIColor.Gray(51, alpha: 0.1),
+                duration: 0.9,
+                location: .TouchLocation,
+                withOverlay: withOverlay,
+                action: action)
     }
     
     func addRipple (
@@ -53,19 +53,19 @@ extension UIView {
         location: MaterialRippleLocation,
         withOverlay: Bool,
         action: (()->Void)?) {
-        
-        let ripple = RippleLayer (
-            superLayer: layer,
-            color: color,
-            animationDuration: duration,
-            location: location,
-            withOverlay: withOverlay,
-            action: action)
-
-        addTapGesture(1, action: { [unowned self] (tap) -> () in
-            ripple.animate(tap.locationInView (self))
-            action? ()
-        })
+            
+            let ripple = RippleLayer (
+                superLayer: layer,
+                color: color,
+                animationDuration: duration,
+                location: location,
+                withOverlay: withOverlay,
+                action: action)
+            
+            addTapGesture(1, action: { [unowned self] (tap) -> () in
+                ripple.animate(tap.locationInView (self))
+                action? ()
+                })
     }
 }
 
@@ -102,7 +102,7 @@ class RippleLayer: CALayer {
         anim.timingFunction = MaterialAnimationTimingFunction.SwiftEnterInOut.timingFunction()
         
         return anim
-    } ()
+        } ()
     
     lazy var overlayAnimation: CABasicAnimation = {
         let overlayAnim = CABasicAnimation (keyPath: "opacity")
@@ -112,17 +112,17 @@ class RippleLayer: CALayer {
         overlayAnim.timingFunction = MaterialAnimationTimingFunction.SwiftEnterInOut.timingFunction()
         
         return overlayAnim
-    } ()
+        } ()
     
     
     
-    // MARK: Lifecylce 
+    // MARK: Lifecylce
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    override init!(layer: AnyObject!) {
+    override init(layer: AnyObject) {
         super.init(layer: layer)
     }
     
@@ -134,19 +134,19 @@ class RippleLayer: CALayer {
         withOverlay: Bool,
         action: (()->Void)?) {
             
-        super.init()
-        self.color = color
-        self.animationDuration = animationDuration
-        self.location = location
-        self.action = action
+            super.init()
+            self.color = color
+            self.animationDuration = animationDuration
+            self.location = location
+            self.action = action
             
-        initRipple(superLayer)
-
-        if withOverlay {
-            initOverlay(superLayer)
-        }
+            initRipple(superLayer)
+            
+            if withOverlay {
+                initOverlay(superLayer)
+            }
     }
-
+    
     
     
     // MARK: Setup
@@ -182,18 +182,18 @@ class RippleLayer: CALayer {
         if location == .TouchLocation {
             position = touchLocation
         } else {
-            position = superlayer.position
+            position = superlayer!.position
         }
         CATransaction.commit()
-    
-        let animationGroup = rippleAnimation as CAAnimationGroup
+        
+        let animationGroup = rippleAnimation as! CAAnimationGroup
         if let over = overlay {
             over.addAnimation(overlayAnimation, forKey: "overlayAnimation")
         }
         
         addAnimation(animationGroup, forKey: "rippleAnimation")
     }
-
+    
 }
 
 
@@ -210,7 +210,7 @@ extension UIColor {
     class func CardBorderColor () -> UIColor {
         return Gray(200)
     }
-
+    
     
     class func RippleColor () -> UIColor {
         return UIColor.Gray(51, alpha: 0.1)
@@ -242,7 +242,7 @@ extension UIFont {
 }
 
 
-struct MaterialCardAppeareance {
+class MaterialCardAppeareance : NSObject {
     
     var headerBackgroundColor: UIColor
     var cellBackgroundColor: UIColor
@@ -270,19 +270,19 @@ struct MaterialCardAppeareance {
         rippleColor: UIColor,
         rippleDuration: NSTimeInterval) {
             
-        self.headerBackgroundColor = headerBackgroundColor
-        self.cellBackgroundColor = cellBackgroundColor
-        self.borderColor = borderColor
-        
-        self.titleFont = titleFont
-        self.titleColor = titleColor
-        
-        self.textFont = textFont
-        self.textColor = textColor
+            self.headerBackgroundColor = headerBackgroundColor
+            self.cellBackgroundColor = cellBackgroundColor
+            self.borderColor = borderColor
             
-        self.shadowColor = shadowColor
-        self.rippleColor = rippleColor
-        self.rippleDuration = rippleDuration
+            self.titleFont = titleFont
+            self.titleColor = titleColor
+            
+            self.textFont = textFont
+            self.textColor = textColor
+            
+            self.shadowColor = shadowColor
+            self.rippleColor = rippleColor
+            self.rippleDuration = rippleDuration
     }
 }
 
@@ -305,7 +305,7 @@ class MaterialCardCell: UIView {
     
     // MARK: Lifecyle
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -343,15 +343,15 @@ class MaterialCardCell: UIView {
             font: parentCard.appeareance.textFont)
         addView(text)
     }
-
+    
     func addView (view: UIView) {
         addSubview(view)
         h += view.h
     }
-
+    
     
     func drawBottomLine () {
-        if let line = bottomLine {
+        if let _ = bottomLine {
             return
         }
         
@@ -368,7 +368,7 @@ class MaterialCardCell: UIView {
     }
 }
 
-class MaterialCardView: UIView {
+@objc class MaterialCardView: UIView {
     
     
     // MARK: Constants
@@ -384,7 +384,7 @@ class MaterialCardView: UIView {
     
     
     // MARK: Properties
-
+    
     var appeareance: MaterialCardAppeareance!
     var items: [MaterialCardCell] = []
     var contentView: UIView!
@@ -393,15 +393,9 @@ class MaterialCardView: UIView {
     
     // MARK: Lifecylce
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    override init () {
-        super.init()
-        defaultInit()
-    }
-    
     
     init (x: CGFloat, y: CGFloat, w: CGFloat) {
         super.init(frame: CGRect (x: x, y: y, width: w, height: 0))
@@ -454,9 +448,9 @@ class MaterialCardView: UIView {
         contentView.size = size
         materialize()
     }
-
+    
     func materialize () {
-
+        
         addShadow(
             CGSize (width: 0, height: 1),
             radius: shadowRadius,
@@ -468,6 +462,7 @@ class MaterialCardView: UIView {
     }
     
     func shadowRadiusAnimation (to: CGFloat) {
+        
         let radiusAnim = CABasicAnimation (keyPath: "shadowRadius")
         radiusAnim.fromValue = layer.shadowRadius
         radiusAnim.toValue = to
@@ -489,7 +484,7 @@ class MaterialCardView: UIView {
         
         layer.addAnimation(anim, forKey: "shadowAnimation")
     }
-
+    
     override func addRipple(action: (() -> Void)?) {
         contentView.addRipple(
             appeareance.rippleColor,
@@ -517,10 +512,10 @@ class MaterialCardView: UIView {
         add(cell)
     }
     
-    func addHeader (view: UIView) {
+    func addHeaderView (view: UIView) {
         let cell = MaterialCardCell (card: self)
         cell.backgroundColor = appeareance.headerBackgroundColor
-
+        
         cell.addView(view)
         
         items.insert(cell, atIndex: 0)
@@ -539,7 +534,7 @@ class MaterialCardView: UIView {
         add(cell)
     }
     
-    func addFooter (view: UIView) {
+    func addFooterView (view: UIView) {
         let cell = MaterialCardCell (card: self)
         cell.backgroundColor = appeareance.headerBackgroundColor
         
@@ -570,7 +565,7 @@ class MaterialCardView: UIView {
         add(cell)
     }
     
-    func addCell (view: UIView, action: (()->Void)? = nil) {
+    func addCellView (view: UIView, action: (()->Void)? = nil) {
         let cell = MaterialCardCell (card: self)
         cell.backgroundColor = appeareance.cellBackgroundColor
         
@@ -608,7 +603,7 @@ class MaterialCardView: UIView {
     
     // MARK: Remove Cell
     
-    func removeCell (index: Int) {
+    func removeCellAtIndex (index: Int) {
         if index < items.count {
             let cell = items[index]
             removeCell(cell)
