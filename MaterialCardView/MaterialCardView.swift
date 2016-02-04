@@ -242,7 +242,7 @@ extension UIFont {
 }
 
 
-@objc public class MaterialCardAppeareance : NSObject {
+@objc public class MaterialCardAppearance : NSObject {
 
     var headerBackgroundColor: UIColor
     var cellBackgroundColor: UIColor
@@ -325,9 +325,9 @@ extension UIFont {
             width: parentCard.w - itemPadding*2,
             padding: itemPadding,
             text: title,
-            textColor: parentCard.appeareance.titleColor,
+            textColor: parentCard.appearance.titleColor,
             textAlignment: .Left,
-            font: parentCard.appeareance.titleFont)
+            font: parentCard.appearance.titleFont)
         addView(title)
     }
 
@@ -338,9 +338,9 @@ extension UIFont {
             width: parentCard.w - itemPadding*2,
             padding: itemPadding,
             text: text,
-            textColor: parentCard.appeareance.textColor,
+            textColor: parentCard.appearance.textColor,
             textAlignment: .Left,
-            font: parentCard.appeareance.textFont)
+            font: parentCard.appearance.textFont)
         addView(text)
     }
 
@@ -356,7 +356,7 @@ extension UIFont {
         }
 
         bottomLine = UIView (x: 0, y: h - 1, w: w, h: 1)
-        bottomLine!.backgroundColor = parentCard.appeareance.borderColor
+        bottomLine!.backgroundColor = parentCard.appearance.borderColor
         addSubview(bottomLine!)
     }
 
@@ -373,21 +373,21 @@ extension UIFont {
 
     // MARK: Constants
 
-    let cardRadius: CGFloat = 3
-    let rippleDuration: NSTimeInterval = 0.9
-    let shadowOpacity: Float = 0.5
-    let shadowRadius: CGFloat = 1.5
+    public let cardRadius: CGFloat = 3
+    public let rippleDuration: NSTimeInterval = 0.9
+    public let shadowOpacity: Float = 0.5
+    public let shadowRadius: CGFloat = 1.5
 
-    let estimatedRowHeight: CGFloat = 53
-    let estimatedHeaderHeight: CGFloat = 40
+    public let estimatedRowHeight: CGFloat = 53
+    public let estimatedHeaderHeight: CGFloat = 40
 
 
 
     // MARK: Properties
 
-    var appeareance: MaterialCardAppeareance!
-    var items: [MaterialCardCell] = []
-    var contentView: UIView!
+    public var appearance: MaterialCardAppearance!
+    public var items: [MaterialCardCell] = []
+    public var contentView: UIView!
 
 
 
@@ -399,27 +399,32 @@ extension UIFont {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        defaultInit()
     }
 
     required public init?(coder aDecoder: NSCoder) {
         fatalError("This class does not support NSCoding")
     }
 
-    func defaultInit () {
-        h = 0
-        appeareance = defaultAppeareance()
+    public convenience init(frame: CGRect, value: MaterialCardAppearance!) {
+      self.init(frame: frame);
+      h = 0
+      if let valueConst = value {
+        // http://stackoverflow.com/questions/27096863/how-to-check-for-an-undefined-or-null-variable-in-swift
+        self.appearance = value
+      } else {
+        self.appearance = defaultAppearance()
+      }
 
-        contentView = UIView (superView: self)
-        addSubview(contentView)
+      contentView = UIView (superView: self)
+      addSubview(contentView)
     }
 
 
 
     // MARK: Setup
 
-    func defaultAppeareance () -> MaterialCardAppeareance {
-        return MaterialCardAppeareance (
+    func defaultAppearance () -> MaterialCardAppearance {
+        return MaterialCardAppearance (
             headerBackgroundColor: UIColor.CardHeaderColor(),
             cellBackgroundColor: UIColor.CardCellColor(),
             borderColor: UIColor.CardBorderColor(),
@@ -453,7 +458,7 @@ extension UIFont {
         materialize()
     }
 
-    func materialize () {
+    public func materialize () {
 
         addShadow(
             CGSize (width: 0, height: 1),
@@ -465,7 +470,7 @@ extension UIFont {
         contentView.setCornerRadius(cardRadius)
     }
 
-    func shadowRadiusAnimation (to: CGFloat) {
+    public func shadowRadiusAnimation (to: CGFloat) {
 
         let radiusAnim = CABasicAnimation (keyPath: "shadowRadius")
         radiusAnim.fromValue = layer.shadowRadius
@@ -489,10 +494,10 @@ extension UIFont {
         layer.addAnimation(anim, forKey: "shadowAnimation")
     }
 
-    override func addRipple(action: (() -> Void)?) {
+    override public func addRipple(action: (() -> Void)?) {
         contentView.addRipple(
-            appeareance.rippleColor,
-            duration: appeareance.rippleDuration,
+            appearance.rippleColor,
+            duration: appearance.rippleDuration,
             location: .TouchLocation,
             withOverlay: false,
             action: { [unowned self] sender in
@@ -505,9 +510,9 @@ extension UIFont {
 
     // MARK: Add Cell
 
-    func addHeader (title: String) {
+    public func addHeader (title: String) {
         let cell = MaterialCardCell (card: self)
-        cell.backgroundColor = appeareance.headerBackgroundColor
+        cell.backgroundColor = appearance.headerBackgroundColor
 
         cell.addTitle(title)
         cell.h = max (cell.h, estimatedHeaderHeight)
@@ -516,9 +521,9 @@ extension UIFont {
         add(cell)
     }
 
-    func addHeaderView (view: UIView) {
+    public func addHeaderView (view: UIView) {
         let cell = MaterialCardCell (card: self)
-        cell.backgroundColor = appeareance.headerBackgroundColor
+        cell.backgroundColor = appearance.headerBackgroundColor
 
         cell.addView(view)
 
@@ -527,9 +532,9 @@ extension UIFont {
     }
 
 
-    func addFooter (title: String) {
+    public func addFooter (title: String) {
         let cell = MaterialCardCell (card: self)
-        cell.backgroundColor = appeareance.headerBackgroundColor
+        cell.backgroundColor = appearance.headerBackgroundColor
 
         cell.addTitle(title)
         cell.h = max (cell.h, estimatedHeaderHeight)
@@ -538,9 +543,9 @@ extension UIFont {
         add(cell)
     }
 
-    func addFooterView (view: UIView) {
+    public func addFooterView (view: UIView) {
         let cell = MaterialCardCell (card: self)
-        cell.backgroundColor = appeareance.headerBackgroundColor
+        cell.backgroundColor = appearance.headerBackgroundColor
 
         cell.addView(view)
 
@@ -549,17 +554,17 @@ extension UIFont {
     }
 
 
-    func addCell (text: String, action: (()->Void)? = nil) {
+    public func addCell (text: String, action: (()->Void)? = nil) {
         let cell = MaterialCardCell (card: self)
-        cell.backgroundColor = appeareance.cellBackgroundColor
+        cell.backgroundColor = appearance.cellBackgroundColor
 
         cell.addText(text)
         cell.h = max (cell.h, estimatedRowHeight)
 
         if let act = action {
             cell.addRipple(
-                appeareance.rippleColor,
-                duration: appeareance.rippleDuration,
+                appearance.rippleColor,
+                duration: appearance.rippleDuration,
                 location: .TouchLocation,
                 withOverlay: true,
                 action: act)
@@ -569,16 +574,16 @@ extension UIFont {
         add(cell)
     }
 
-    func addCellView (view: UIView, action: (()->Void)? = nil) {
+    public func addCellView (view: UIView, action: (()->Void)? = nil) {
         let cell = MaterialCardCell (card: self)
-        cell.backgroundColor = appeareance.cellBackgroundColor
+        cell.backgroundColor = appearance.cellBackgroundColor
 
         cell.addView(view)
 
         if let act = action {
             cell.addRipple(
-                appeareance.rippleColor,
-                duration: appeareance.rippleDuration,
+                appearance.rippleColor,
+                duration: appearance.rippleDuration,
                 location: .TouchLocation,
                 withOverlay: true,
                 action: act)
@@ -588,8 +593,8 @@ extension UIFont {
         add(cell)
     }
 
-    func addCell (cell: MaterialCardCell) {
-        cell.backgroundColor = appeareance.cellBackgroundColor
+    public func addCell (cell: MaterialCardCell) {
+        cell.backgroundColor = appearance.cellBackgroundColor
 
         items.append(cell)
         add(cell)
