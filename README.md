@@ -59,9 +59,9 @@ And start to add `MaterialCardCell`s
 	func addFooter (title: String)
 	func addFooter (view: UIView)
 ```
-  
-   
->Material Card will update its frame size when you add or 
+
+
+>Material Card will update its frame size when you add or
 >remove `MaterialCardCell`s.  
 >This is why you don't set its `height` value when initilize it.
 
@@ -72,13 +72,13 @@ MaterialCardAppearance
 	var headerBackgroundColor: UIColor
     var cellBackgroundColor: UIColor
     var borderColor: UIColor
-    
+
     var titleFont: UIFont
     var titleColor: UIColor
-    
+
     var textFont: UIFont
     var textColor: UIColor
-    
+
     var shadowColor: UIColor
     var rippleColor: UIColor
     var rippleDuration: NSTimeInterval
@@ -114,13 +114,13 @@ MaterialAnimationTimingFunction
     enum MaterialAnimationTimingFunction {
         case SwiftEnterInOut
         case SwiftExitInOut
-        
+
         func timingFunction () -> CAMediaTimingFunction {
             switch self {
-                
+
             case .SwiftEnterInOut:
                 return CAMediaTimingFunction (controlPoints: 0.4027, 0, 0.1, 1)
-                
+
             case .SwiftExitInOut:
                 return CAMediaTimingFunction (controlPoints: 0.4027, 0, 0.2256, 1)
             }
@@ -132,11 +132,11 @@ MaterialAnimationTimingFunction
 #### SwiftEnterInOut
 
 	(0.4027, 0, 0.1, 1)
-	
+
 #### SwiftExitInOut
-	
+
 	(0.4027, 0, 0.2256, 1)
-	
+
 
 MaterialRippleLocation
 ----------------------
@@ -153,8 +153,8 @@ RippleLayer
 ##### Adds ripple animation when you add cells with action
 
 ``` swift
-	c.addCell("Item 1") { sender in 
-		println("item 1 tapped") 
+	c.addCell("Item 1") { sender in
+		println("item 1 tapped")
 	}
 ```
 
@@ -170,6 +170,3 @@ RippleLayer
 ```
 
 ![alt tag](https://raw.githubusercontent.com/cemolcay/MaterialCardView/master/shadow.gif)
-
-
-
