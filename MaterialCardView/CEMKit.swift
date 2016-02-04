@@ -1523,7 +1523,7 @@ func barButtonItem (
 
 // MARK: - BlockButton
 
-class BlockButton: UIButton {
+public class BlockButton: UIButton {
 
     // init (x: CGFloat, y: CGFloat, w: CGFloat, h: CGFloat) {
     //     super.init (frame: CGRectMake (x, y, w, h))
@@ -1533,7 +1533,7 @@ class BlockButton: UIButton {
         super.init(frame: frame)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -1552,7 +1552,7 @@ class BlockButton: UIButton {
 
 // MARK: - BlockWebView
 
-class BlockWebView: UIWebView, UIWebViewDelegate {
+public class BlockWebView: UIWebView, UIWebViewDelegate {
 
     var didStartLoad: ((NSURLRequest) -> ())?
     var didFinishLoad: ((NSURLRequest) -> ())?
@@ -1570,21 +1570,21 @@ class BlockWebView: UIWebView, UIWebViewDelegate {
     // }
 
 
-    func webViewDidStartLoad(webView: UIWebView) {
+    public func webViewDidStartLoad(webView: UIWebView) {
         didStartLoad? (webView.request!)
     }
 
-    func webViewDidFinishLoad(webView: UIWebView) {
+    public func webViewDidFinishLoad(webView: UIWebView) {
         didFinishLoad? (webView.request!)
     }
 
-    func webView(
+    public func webView(
         webView: UIWebView,
         didFailLoadWithError error: NSError?) {
             didFailLoad? (webView.request!, error!)
     }
 
-    func webView(
+    public func webView(
         webView: UIWebView,
         shouldStartLoadWithRequest request: NSURLRequest,
         navigationType: UIWebViewNavigationType) -> Bool {
@@ -1601,7 +1601,7 @@ class BlockWebView: UIWebView, UIWebViewDelegate {
 
 // MARK: BlockTap
 
-class BlockTap: UITapGestureRecognizer {
+public class BlockTap: UITapGestureRecognizer {
 
     private var tapAction: ((UITapGestureRecognizer) -> Void)?
 
@@ -1629,7 +1629,7 @@ class BlockTap: UITapGestureRecognizer {
 
 // MARK: BlockPan
 
-class BlockPan: UIPanGestureRecognizer {
+public class BlockPan: UIPanGestureRecognizer {
 
     private var panAction: ((UIPanGestureRecognizer) -> Void)?
 
@@ -1652,7 +1652,7 @@ class BlockPan: UIPanGestureRecognizer {
 
 // MARK: BlockSwipe
 
-class BlockSwipe: UISwipeGestureRecognizer {
+public class BlockSwipe: UISwipeGestureRecognizer {
 
     private var swipeAction: ((UISwipeGestureRecognizer) -> Void)?
 
@@ -1679,7 +1679,7 @@ class BlockSwipe: UISwipeGestureRecognizer {
 
 // MARK: BlockPinch
 
-class BlockPinch: UIPinchGestureRecognizer {
+public class BlockPinch: UIPinchGestureRecognizer {
 
     private var pinchAction: ((UIPinchGestureRecognizer) -> Void)?
 
@@ -1702,7 +1702,7 @@ class BlockPinch: UIPinchGestureRecognizer {
 
 // MARK: BlockLongPress
 
-class BlockLongPress: UILongPressGestureRecognizer {
+public class BlockLongPress: UILongPressGestureRecognizer {
 
     private var longPressAction: ((UILongPressGestureRecognizer) -> Void)?
 
