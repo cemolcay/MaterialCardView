@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MaterialCardView"
-  s.version      = "0.0.3"
+  s.version      = "0.0.4"
   s.summary      = "Create material design cards quick and easy."
 
   s.description  = <<-DESC
@@ -111,7 +111,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/cemolcay/MaterialCardView.git", :tag => "v0.0.3" }
+  s.source       = { :git => "https://github.com/cemolcay/MaterialCardView.git", :tag => "v0.0.4" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
