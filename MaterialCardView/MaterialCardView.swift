@@ -377,7 +377,6 @@ extension UIFont {
     public let rippleDuration: NSTimeInterval = 0.9
     public let shadowOpacity: Float = 0.5
     public let shadowRadius: CGFloat = 1.5
-
     public let estimatedRowHeight: CGFloat = 53
     public let estimatedHeaderHeight: CGFloat = 40
 
@@ -415,8 +414,8 @@ extension UIFont {
         self.appearance = defaultAppearance()
       }
 
-      contentView = UIView (superView: self)
-      addSubview(contentView)
+      self.contentView = UIView (superView: self)
+      addSubview(self.contentView)
     }
 
 
@@ -454,20 +453,22 @@ extension UIFont {
             }
         }
 
-        contentView.size = size
+        self.contentView.size = size
         materialize()
     }
 
     public func materialize () {
 
+        self.contentView.backgroundColor = self.backgroundColor;
+
         addShadow(
             CGSize (width: 0, height: 1),
-            radius: shadowRadius,
+            radius: self.shadowRadius,
             color: UIColor.ShadowColor(),
-            opacity: shadowOpacity,
-            cornerRadius: cardRadius)
+            opacity: self.shadowOpacity,
+            cornerRadius: self.cardRadius)
 
-        contentView.setCornerRadius(cardRadius)
+        self.contentView.setCornerRadius(self.cardRadius)
     }
 
     public func shadowRadiusAnimation (to: CGFloat) {
@@ -495,9 +496,9 @@ extension UIFont {
     }
 
     override public func addRipple(action: (() -> Void)?) {
-        contentView.addRipple(
-            appearance.rippleColor,
-            duration: appearance.rippleDuration,
+        self.contentView.addRipple(
+            self.appearance.rippleColor,
+            duration: self.appearance.rippleDuration,
             location: .TouchLocation,
             withOverlay: false,
             action: { [unowned self] sender in
@@ -512,7 +513,7 @@ extension UIFont {
 
     public func addHeader (title: String) {
         let cell = MaterialCardCell (card: self)
-        cell.backgroundColor = appearance.headerBackgroundColor
+        cell.backgroundColor = self.appearance.headerBackgroundColor
 
         cell.addTitle(title)
         cell.h = max (cell.h, estimatedHeaderHeight)
@@ -523,7 +524,7 @@ extension UIFont {
 
     public func addHeaderView (view: UIView) {
         let cell = MaterialCardCell (card: self)
-        cell.backgroundColor = appearance.headerBackgroundColor
+        cell.backgroundColor = self.appearance.headerBackgroundColor
 
         cell.addView(view)
 
@@ -534,7 +535,7 @@ extension UIFont {
 
     public func addFooter (title: String) {
         let cell = MaterialCardCell (card: self)
-        cell.backgroundColor = appearance.headerBackgroundColor
+        cell.backgroundColor = self.appearance.headerBackgroundColor
 
         cell.addTitle(title)
         cell.h = max (cell.h, estimatedHeaderHeight)
@@ -545,7 +546,7 @@ extension UIFont {
 
     public func addFooterView (view: UIView) {
         let cell = MaterialCardCell (card: self)
-        cell.backgroundColor = appearance.headerBackgroundColor
+        cell.backgroundColor = self.appearance.headerBackgroundColor
 
         cell.addView(view)
 
@@ -556,15 +557,15 @@ extension UIFont {
 
     public func addCell (text: String, action: (()->Void)? = nil) {
         let cell = MaterialCardCell (card: self)
-        cell.backgroundColor = appearance.cellBackgroundColor
+        cell.backgroundColor = self.appearance.cellBackgroundColor
 
         cell.addText(text)
         cell.h = max (cell.h, estimatedRowHeight)
 
         if let act = action {
             cell.addRipple(
-                appearance.rippleColor,
-                duration: appearance.rippleDuration,
+                self.appearance.rippleColor,
+                duration: self.appearance.rippleDuration,
                 location: .TouchLocation,
                 withOverlay: true,
                 action: act)
@@ -576,14 +577,14 @@ extension UIFont {
 
     public func addCellView (view: UIView, action: (()->Void)? = nil) {
         let cell = MaterialCardCell (card: self)
-        cell.backgroundColor = appearance.cellBackgroundColor
+        cell.backgroundColor = self.appearance.cellBackgroundColor
 
         cell.addView(view)
 
         if let act = action {
             cell.addRipple(
-                appearance.rippleColor,
-                duration: appearance.rippleDuration,
+                self.appearance.rippleColor,
+                duration: self.appearance.rippleDuration,
                 location: .TouchLocation,
                 withOverlay: true,
                 action: act)
@@ -594,7 +595,7 @@ extension UIFont {
     }
 
     public func addCell (cell: MaterialCardCell) {
-        cell.backgroundColor = appearance.cellBackgroundColor
+        cell.backgroundColor = self.appearance.cellBackgroundColor
 
         items.append(cell)
         add(cell)
@@ -602,7 +603,7 @@ extension UIFont {
 
 
     private func add (cell: MaterialCardCell) {
-        contentView.addSubview(cell)
+        self.contentView.addSubview(cell)
         h += cell.h
 
         updateFrame()
