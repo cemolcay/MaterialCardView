@@ -14,7 +14,7 @@ Installation
 
 Copy & paste `MaterialCardView.swift` and `CEMKit.swift` to your project
 
-### Cocoapods
+### CocoaPods
 
 Add to your `podfile`
 
